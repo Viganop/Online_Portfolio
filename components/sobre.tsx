@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
+import { MapPin, GraduationCap, Briefcase, Code2 } from 'lucide-react';
 
 export function Sobre() {
   const [isVisible, setIsVisible] = useState(false);
@@ -9,85 +10,129 @@ export function Sobre() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
-      { threshold: 0.2 }
+      { threshold: 0.1 }
     );
     const el = document.getElementById('sobre');
     if (el) observer.observe(el);
     return () => observer.disconnect();
   }, []);
 
+  const highlights = [
+    { icon: MapPin, text: 'Brasil' },
+    { icon: GraduationCap, text: 'Análise e Desenvolvimento de Sistemas' },
+    { icon: Briefcase, text: 'Freelancer' },
+    { icon: Code2, text: 'Full-Stack Developer' },
+  ];
+
+  const stats = [
+    { value: '4+', label: 'Anos de Experiência' },
+    { value: '10+', label: 'Projetos Entregues' },
+    { value: '8+', label: 'Tecnologias Dominadas' },
+  ];
+
   return (
-    <section id="sobre" className="relative py-24 bg-background">
-      <div className="container mx-auto px-6 max-w-2xl">
+    <section id="sobre" className="relative py-32">
+      <div className="container mx-auto px-6">
+        <div className="grid lg:grid-cols-2 gap-16 items-start max-w-6xl mx-auto">
 
-        {/* Breadcrumb */}
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="text-xs font-mono text-muted-foreground tracking-widest mb-4"
-        >
-          &lt; SOBRE /&gt;
-        </motion.p>
-
-        {/* Título */}
-        <motion.h2
-          initial={{ opacity: 0, y: 16 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.05 }}
-          className="text-4xl sm:text-5xl font-black text-foreground mb-8 leading-tight"
-        >
-          Quem sou <em className="text-primary not-italic">eu</em>
-        </motion.h2>
-
-        {/* Parágrafos */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="space-y-5 text-muted-foreground leading-relaxed mb-12"
-        >
-          <p>
-            Meu nome é <strong className="text-foreground font-bold">Lucca Viganon Periotto</strong> e sou apaixonado por
-            tecnologia, o que me levou a construir minha trajetória profissional
-            na área de programação. Nos últimos <strong className="text-foreground underline">quatro anos</strong>, venho me
-            aprofundando nas principais ferramentas e tecnologias utilizadas
-            pelo mercado, sempre buscando aplicar <strong className="text-foreground">práticas ágeis</strong> no
-            desenvolvimento de software.
-          </p>
-          <p>
-            Atualmente, estou no último ano da graduação em{' '}
-            <strong className="text-foreground font-bold">Análise e Desenvolvimento de Sistemas</strong> no Senai. Paralelamente à faculdade,
-            atuo como <strong className="text-foreground">freelancer</strong> em diferentes projetos e participo de
-            iniciativas de <strong className="text-foreground">código aberto</strong>, experiências que têm contribuído
-            significativamente para meu crescimento técnico e para a
-            consolidação da minha vivência prática na área de desenvolvimento.
-          </p>
-        </motion.div>
-
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="grid grid-cols-3 gap-8"
-        >
-          {[
-            { value: '4+',  label: 'ANOS DE\nEXPERIÊNCIA' },
-            { value: '10+', label: 'PROJETOS\nENTREGUES' },
-            { value: '8+',  label: 'TECNOLOGIAS\nDOMINADAS' },
-          ].map((stat) => (
-            <div key={stat.label}>
-              <div className="text-3xl sm:text-4xl font-black text-primary mb-1">
-                {stat.value}
-              </div>
-              <div className="text-[10px] font-semibold tracking-widest text-muted-foreground whitespace-pre-line leading-relaxed">
-                {stat.label}
-              </div>
+          {/* Left Column - Sticky info */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={isVisible ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="lg:sticky lg:top-32"
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <div className="h-px w-12 bg-primary" />
+              <span className="text-xs font-semibold tracking-[0.25em] text-primary uppercase">
+                Sobre mim
+              </span>
             </div>
-          ))}
-        </motion.div>
 
+            <h2 className="text-4xl sm:text-5xl font-black text-foreground mb-8 leading-tight text-balance">
+              Construindo experiências digitais com <span className="text-primary">paixão</span> e <span className="text-primary">propósito</span>
+            </h2>
+
+            {/* Highlights */}
+            <div className="flex flex-wrap gap-3 mb-10">
+              {highlights.map((item, index) => (
+                <motion.div
+                  key={item.text}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={isVisible ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
+                  className="flex items-center gap-2 px-4 py-2 rounded-full border border-border/50 bg-card/50 backdrop-blur-sm"
+                >
+                  <item.icon className="w-4 h-4 text-primary" />
+                  <span className="text-sm text-muted-foreground">{item.text}</span>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Stats */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isVisible ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="grid grid-cols-3 gap-6 p-6 rounded-2xl border border-border/30 bg-card/30 backdrop-blur-sm"
+            >
+              {stats.map((stat, index) => (
+                <div key={stat.label} className="text-center">
+                  <div className="text-3xl sm:text-4xl font-black text-primary mb-1">
+                    {stat.value}
+                  </div>
+                  <div className="text-xs text-muted-foreground leading-tight">
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          </motion.div>
+
+          {/* Right Column - Content */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={isVisible ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="space-y-6"
+          >
+            <div className="p-8 rounded-2xl border border-border/30 bg-card/30 backdrop-blur-sm">
+              <p className="text-muted-foreground leading-relaxed text-lg mb-6">
+                Sou <strong className="text-foreground">Lucca Viganon Periotto</strong>, desenvolvedor apaixonado por criar soluções digitais que fazem a diferença. Minha jornada na programação começou há mais de quatro anos, e desde então venho me dedicando a dominar as tecnologias mais relevantes do mercado.
+              </p>
+              <p className="text-muted-foreground leading-relaxed text-lg mb-6">
+                Atualmente curso o último ano de <strong className="text-foreground">Análise e Desenvolvimento de Sistemas</strong> no Senai, onde tenho a oportunidade de unir teoria e prática. Paralelamente, atuo como freelancer, colaborando em projetos desafiadores que me permitem expandir constantemente minhas habilidades.
+              </p>
+              <p className="text-muted-foreground leading-relaxed text-lg">
+                Acredito que o código é uma forma de arte - cada linha escrita com <strong className="text-foreground">propósito</strong>, cada solução pensada com <strong className="text-foreground">cuidado</strong>. Meu objetivo é sempre entregar não apenas funcionalidades, mas experiências que realmente agreguem valor.
+              </p>
+            </div>
+
+            {/* Timeline-like experience highlights */}
+            <div className="space-y-4">
+              {[
+                { year: '2024', title: 'Projetos Freelancer', desc: 'Desenvolvimento de aplicações web modernas para diversos clientes' },
+                { year: '2023', title: 'Contribuições Open Source', desc: 'Participação ativa em projetos de código aberto' },
+                { year: '2021', title: 'Início da Jornada', desc: 'Primeiros passos no desenvolvimento web' },
+              ].map((item, index) => (
+                <motion.div
+                  key={item.year}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isVisible ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
+                  className="flex gap-4 p-4 rounded-xl border border-border/20 bg-card/20 backdrop-blur-sm hover:bg-card/40 transition-colors"
+                >
+                  <span className="text-primary font-mono text-sm font-bold whitespace-nowrap">{item.year}</span>
+                  <div>
+                    <h4 className="text-foreground font-semibold mb-1">{item.title}</h4>
+                    <p className="text-muted-foreground text-sm">{item.desc}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+        </div>
       </div>
     </section>
   );
