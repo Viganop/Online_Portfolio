@@ -52,14 +52,14 @@ export function Contato() {
           >
             <div className="flex items-center justify-center gap-3 mb-6">
               <div className="h-px w-12 bg-primary" />
-              <span className="text-xs font-semibold tracking-[0.25em] text-foreground uppercase">
+              <span className="text-xs font-semibold tracking-[0.25em] text-primary uppercase">
                 Contato
               </span>
               <div className="h-px w-12 bg-primary" />
             </div>
 
             <h2 className="text-4xl sm:text-5xl font-black text-foreground mb-6 text-balance">
-              Vamos <span className="text-primary">conversar</span>?
+              Vamos conversar?
             </h2>
             <p className="text-muted-foreground text-lg max-w-xl mx-auto">
               Estou sempre aberto a novas oportunidades, projetos interessantes ou simplesmente uma boa conversa sobre tecnologia.

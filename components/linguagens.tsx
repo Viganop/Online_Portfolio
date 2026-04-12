@@ -77,14 +77,14 @@ export function Linguagens() {
         >
           <div className="flex items-center justify-center gap-3 mb-6">
             <div className="h-px w-12 bg-primary" />
-            <span className="text-xs font-semibold tracking-[0.25em] text-foreground uppercase">
+            <span className="text-xs font-semibold tracking-[0.25em] text-primary uppercase">
               Stack Técnico
             </span>
             <div className="h-px w-12 bg-primary" />
           </div>
 
           <h2 className="text-4xl sm:text-5xl font-black text-foreground mb-6 text-balance">
-            Tecnologias & <span className="text-primary">Ferramentas</span>
+            Tecnologias & Ferramentas
           </h2>
           <p className="text-muted-foreground text-lg">
             As ferramentas que utilizo para transformar ideias em soluções digitais funcionais e escaláveis.

@@ -1,8 +1,19 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { motion } from 'motion/react';
-import { MapPin, GraduationCap, Briefcase, Code2 } from 'lucide-react';
+import { MapPin, Briefcase, GraduationCap, Code2 } from 'lucide-react';
+import dynamic from 'next/dynamic';
+
+// Carregar Lanyard dinamicamente para evitar SSR issues
+const Lanyard = dynamic(() => import('./lanyard').then(mod => ({ default: mod.Lanyard })), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full rounded-2xl border border-border/30 bg-card/30 backdrop-blur-sm flex items-center justify-center">
+      <div className="text-muted-foreground text-sm">Carregando...</div>
+    </div>
+  )
+});
 
 export function Sobre() {
   const [isVisible, setIsVisible] = useState(false);
@@ -19,8 +30,8 @@ export function Sobre() {
 
   const highlights = [
     { icon: MapPin, text: 'Brasil' },
-    { icon: GraduationCap, text: 'Análise e Desenvolvimento de Sistemas' },
     { icon: Briefcase, text: 'Freelancer' },
+    { icon: GraduationCap, text: 'Análise e Desenvolvimento de Sistemas' },
     { icon: Code2, text: 'Full-Stack Developer' },
   ];
 
@@ -33,66 +44,24 @@ export function Sobre() {
   return (
     <section id="sobre" className="relative py-32">
       <div className="container mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-start max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-12 items-start max-w-6xl mx-auto">
 
-          {/* Left Column - Sticky info */}
+          {/* Left Column - Text and Stats */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={isVisible ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="lg:sticky lg:top-32"
           >
+            {/* Mini-title */}
             <div className="flex items-center gap-3 mb-6">
               <div className="h-px w-12 bg-primary" />
-              <span className="text-xs font-semibold tracking-[0.25em] text-foreground uppercase">
+              <span className="text-xs font-semibold tracking-[0.25em] text-primary uppercase">
                 Sobre mim
               </span>
             </div>
 
-            {/* Highlights */}
-            <div className="flex flex-wrap gap-3 mb-10">
-              {highlights.map((item, index) => (
-                <motion.div
-                  key={item.text}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={isVisible ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
-                  className="flex items-center gap-2 px-4 py-2 rounded-full border border-border/50 bg-card/50 backdrop-blur-sm"
-                >
-                  <item.icon className="w-4 h-4 text-primary" />
-                  <span className="text-sm text-muted-foreground">{item.text}</span>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="grid grid-cols-3 gap-6 p-6 rounded-2xl border border-border/30 bg-card/30 backdrop-blur-sm"
-            >
-              {stats.map((stat, index) => (
-                <div key={stat.label} className="text-center">
-                  <div className="text-3xl sm:text-4xl font-black text-primary mb-1">
-                    {stat.value}
-                  </div>
-                  <div className="text-xs text-muted-foreground leading-tight">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </motion.div>
-          </motion.div>
-
-          {/* Right Column - Content */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isVisible ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="space-y-6"
-          >
-            <div className="p-8 rounded-2xl border border-border/30 bg-card/30 backdrop-blur-sm">
+            {/* Main text */}
+            <div className="p-8 rounded-2xl border border-border/30 bg-card/30 backdrop-blur-sm mb-8">
               <p className="text-muted-foreground leading-relaxed text-lg mb-6">
                 Sou <strong className="text-foreground">Lucca Viganon Periotto</strong>, desenvolvedor apaixonado por criar soluções digitais que fazem a diferença. Minha jornada na programação começou há mais de quatro anos, e desde então venho me dedicando a dominar as tecnologias mais relevantes do mercado.
               </p>
@@ -104,7 +73,58 @@ export function Sobre() {
               </p>
             </div>
 
+            {/* Stats */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isVisible ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="grid grid-cols-3 gap-6 p-6 rounded-2xl border border-border/30 bg-card/30 backdrop-blur-sm mb-6"
+            >
+              {stats.map((stat) => (
+                <div key={stat.label} className="text-center">
+                  <div className="text-3xl sm:text-4xl font-black text-primary mb-1">
+                    {stat.value}
+                  </div>
+                  <div className="text-xs text-muted-foreground leading-tight">
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </motion.div>
 
+            {/* Highlights */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isVisible ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="flex flex-wrap gap-3"
+            >
+              {highlights.map((item, index) => (
+                <div
+                  key={item.text}
+                  className="flex items-center gap-2 px-4 py-2 rounded-full border border-border/50 bg-card/50 backdrop-blur-sm"
+                >
+                  <item.icon className="w-4 h-4 text-primary" />
+                  <span className="text-sm text-muted-foreground">{item.text}</span>
+                </div>
+              ))}
+            </motion.div>
+          </motion.div>
+
+          {/* Right Column - Lanyard Card */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={isVisible ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="h-[500px] lg:h-[600px] rounded-2xl border border-border/30 bg-card/30 backdrop-blur-sm overflow-hidden"
+          >
+            <Suspense fallback={
+              <div className="w-full h-full flex items-center justify-center">
+                <div className="text-muted-foreground text-sm">Carregando...</div>
+              </div>
+            }>
+              <Lanyard className="w-full h-full" />
+            </Suspense>
           </motion.div>
 
         </div>
