@@ -44,14 +44,10 @@ export function Sobre() {
           >
             <div className="flex items-center gap-3 mb-6">
               <div className="h-px w-12 bg-primary" />
-              <span className="text-xs font-semibold tracking-[0.25em] text-primary uppercase">
+              <span className="text-xs font-semibold tracking-[0.25em] text-foreground uppercase">
                 Sobre mim
               </span>
             </div>
-
-            <h2 className="text-4xl sm:text-5xl font-black text-foreground mb-8 leading-tight text-balance">
-              Construindo experiências digitais com <span className="text-primary">paixão</span> e <span className="text-primary">propósito</span>
-            </h2>
 
             {/* Highlights */}
             <div className="flex flex-wrap gap-3 mb-10">
@@ -108,28 +104,7 @@ export function Sobre() {
               </p>
             </div>
 
-            {/* Timeline-like experience highlights */}
-            <div className="space-y-4">
-              {[
-                { year: '2024', title: 'Projetos Freelancer', desc: 'Desenvolvimento de aplicações web modernas para diversos clientes' },
-                { year: '2023', title: 'Contribuições Open Source', desc: 'Participação ativa em projetos de código aberto' },
-                { year: '2021', title: 'Início da Jornada', desc: 'Primeiros passos no desenvolvimento web' },
-              ].map((item, index) => (
-                <motion.div
-                  key={item.year}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isVisible ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
-                  className="flex gap-4 p-4 rounded-xl border border-border/20 bg-card/20 backdrop-blur-sm hover:bg-card/40 transition-colors"
-                >
-                  <span className="text-primary font-mono text-sm font-bold whitespace-nowrap">{item.year}</span>
-                  <div>
-                    <h4 className="text-foreground font-semibold mb-1">{item.title}</h4>
-                    <p className="text-muted-foreground text-sm">{item.desc}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+
           </motion.div>
 
         </div>

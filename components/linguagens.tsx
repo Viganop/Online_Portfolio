@@ -77,7 +77,7 @@ export function Linguagens() {
         >
           <div className="flex items-center justify-center gap-3 mb-6">
             <div className="h-px w-12 bg-primary" />
-            <span className="text-xs font-semibold tracking-[0.25em] text-primary uppercase">
+            <span className="text-xs font-semibold tracking-[0.25em] text-foreground uppercase">
               Stack Técnico
             </span>
             <div className="h-px w-12 bg-primary" />
@@ -145,27 +145,7 @@ export function Linguagens() {
           ))}
         </div>
 
-        {/* Additional skills */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="mt-16 text-center"
-        >
-          <p className="text-muted-foreground mb-6">
-            Também tenho experiência com:
-          </p>
-          <div className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
-            {['GraphQL', 'REST APIs', 'CI/CD', 'AWS', 'Vercel', 'Prisma', 'Jest', 'Cypress', 'Storybook', 'Linux'].map((skill) => (
-              <span
-                key={skill}
-                className="px-4 py-2 rounded-full text-sm border border-border/30 bg-card/20 text-muted-foreground hover:text-foreground hover:border-primary/30 transition-colors"
-              >
-                {skill}
-              </span>
-            ))}
-          </div>
-        </motion.div>
+
 
       </div>
     </section>

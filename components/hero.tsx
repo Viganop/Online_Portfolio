@@ -56,7 +56,7 @@ export function Hero() {
           className="flex items-center gap-3 mb-6"
         >
           <span className="h-px w-10 bg-primary" />
-          <span className="text-xs font-semibold tracking-[0.25em] text-primary uppercase">
+          <span className="text-xs font-semibold tracking-[0.25em] text-foreground uppercase">
             Full-Stack Developer
           </span>
           <span className="h-px w-10 bg-primary" />

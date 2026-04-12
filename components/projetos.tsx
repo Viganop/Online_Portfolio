@@ -80,7 +80,7 @@ export function Projetos() {
         >
           <div className="flex items-center justify-center gap-3 mb-6">
             <div className="h-px w-12 bg-primary" />
-            <span className="text-xs font-semibold tracking-[0.25em] text-primary uppercase">
+            <span className="text-xs font-semibold tracking-[0.25em] text-foreground uppercase">
               Portfólio
             </span>
             <div className="h-px w-12 bg-primary" />
