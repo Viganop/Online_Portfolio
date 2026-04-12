@@ -125,6 +125,13 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Dark mode background patterns */
+  html[data-theme="dark"] body {
     background-image:
       /* Brilho suave no canto superior esquerdo */
       radial-gradient(ellipse 80% 50% at 0% 0%,   rgba(30, 80, 140, 0.18) 0%, transparent 60%),
@@ -134,8 +141,11 @@
       radial-gradient(circle, rgba(162, 221, 255, 0.055) 1px, transparent 1px);
     background-size: 100% 100%, 100% 100%, 40px 40px;
   }
-  html {
-    scroll-behavior: smooth;
+  
+  /* Light mode - clean background */
+  html[data-theme="light"] body {
+    background-image: none;
+    background-color: var(--background);
   }
 }
 

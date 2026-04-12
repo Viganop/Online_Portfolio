@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { ThemeProvider } from '@/components/theme-context'
 import './globals.css'
 
 const inter = Inter({
@@ -10,13 +11,13 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'FlexNet Telecom | Internet Fibra Óptica de Alta Velocidade',
-  description: 'Internet fibra óptica de alta velocidade para sua casa ou empresa. Planos a partir de 200MB. Atendimento 24h em São Carlos, Ibaté e Araraquara.',
-  keywords: ['internet fibra', 'fibra óptica', 'provedor internet', 'São Carlos', 'Ibaté', 'Araraquara', 'FlexNet'],
-  authors: [{ name: 'FlexNet Telecom' }],
+  title: 'Lucca Viganon | Full-Stack Developer',
+  description: 'Desenvolvedor Full-Stack especializado em criar experiências digitais modernas e eficientes. React, Next.js, TypeScript e mais.',
+  keywords: ['desenvolvedor', 'full-stack', 'react', 'next.js', 'typescript', 'portfólio', 'web developer'],
+  authors: [{ name: 'Lucca Viganon Periotto' }],
   openGraph: {
-    title: 'FlexNet Telecom | Internet Fibra Óptica',
-    description: 'Internet fibra óptica de alta velocidade para sua casa ou empresa.',
+    title: 'Lucca Viganon | Full-Stack Developer',
+    description: 'Desenvolvedor Full-Stack especializado em criar experiências digitais modernas e eficientes.',
     type: 'website',
   },
 }
@@ -33,9 +34,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="pt-BR" className="scroll-smooth">
+    <html lang="pt-BR" className="scroll-smooth bg-background">
       <body className={`${inter.variable} font-sans antialiased bg-background text-foreground`}>
-        {children}
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
