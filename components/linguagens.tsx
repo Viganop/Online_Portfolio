@@ -16,22 +16,19 @@ const TECNOLOGIAS: Tecnologia[] = [
   { nome: 'Next.js', nivel: 90, categoria: 'frontend', icone: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg' },
   { nome: 'TypeScript', nivel: 88, categoria: 'frontend', icone: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg' },
   { nome: 'Tailwind CSS', nivel: 92, categoria: 'frontend', icone: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg' },
-  { nome: 'Vue.js', nivel: 75, categoria: 'frontend', icone: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg' },
   
   // Backend
   { nome: 'Node.js', nivel: 88, categoria: 'backend', icone: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg' },
   { nome: 'Python', nivel: 82, categoria: 'backend', icone: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' },
-  { nome: 'Express', nivel: 85, categoria: 'backend', icone: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg' },
-  { nome: 'NestJS', nivel: 70, categoria: 'backend', icone: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nestjs/nestjs-original.svg' },
   
   // Database
   { nome: 'PostgreSQL', nivel: 80, categoria: 'database', icone: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg' },
-  { nome: 'MongoDB', nivel: 78, categoria: 'database', icone: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg' },
-  { nome: 'Redis', nivel: 65, categoria: 'database', icone: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg' },
+  { nome: 'MySQL', nivel: 78, categoria: 'database', icone: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg' },
   
   // Tools
   { nome: 'Git', nivel: 90, categoria: 'tools', icone: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg' },
   { nome: 'Docker', nivel: 72, categoria: 'tools', icone: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
+  { nome: 'VS Code', nivel: 95, categoria: 'tools', icone: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg' },
   { nome: 'Figma', nivel: 68, categoria: 'tools', icone: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg' },
 ];
 
@@ -127,7 +124,7 @@ export function Linguagens() {
               layout
               className="group p-6 rounded-2xl border border-border/30 bg-card/30 backdrop-blur-sm hover:border-primary/30 hover:bg-card/50 transition-all duration-300"
             >
-              <div className="flex items-center gap-4 mb-4">
+              <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-xl bg-background/50 border border-border/30 p-2.5 flex items-center justify-center group-hover:border-primary/30 transition-colors">
                   <img
                     src={tech.icone}
@@ -143,19 +140,6 @@ export function Linguagens() {
                     {tech.categoria === 'tools' ? 'Ferramenta' : tech.categoria}
                   </span>
                 </div>
-                <span className="text-sm font-bold text-primary">
-                  {tech.nivel}%
-                </span>
-              </div>
-
-              {/* Progress Bar */}
-              <div className="h-1.5 rounded-full bg-border/50 overflow-hidden">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={isVisible ? { width: `${tech.nivel}%` } : {}}
-                  transition={{ duration: 1, delay: 0.3 + index * 0.05, ease: 'easeOut' }}
-                  className="h-full rounded-full bg-gradient-to-r from-primary to-accent"
-                />
               </div>
             </motion.div>
           ))}
