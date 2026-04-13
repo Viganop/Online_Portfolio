@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { motion } from 'motion/react';
-import { MapPin, Briefcase, GraduationCap, Code2 } from 'lucide-react';
+import { GraduationCap } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
 // Carregar Lanyard dinamicamente para evitar SSR issues
@@ -29,10 +29,7 @@ export function Sobre() {
   }, []);
 
   const highlights = [
-    { icon: MapPin, text: 'Brasil' },
-    { icon: Briefcase, text: 'Freelancer' },
     { icon: GraduationCap, text: 'Análise e Desenvolvimento de Sistemas' },
-    { icon: Code2, text: 'Full-Stack Developer' },
   ];
 
   const stats = [
@@ -61,7 +58,7 @@ export function Sobre() {
             </div>
 
             {/* Main text */}
-            <div className="p-8 rounded-2xl border border-border/30 bg-card/30 backdrop-blur-sm mb-8">
+            <div className="mb-8">
               <p className="text-muted-foreground leading-relaxed text-lg mb-6">
                 Sou <strong className="text-foreground">Lucca Viganon Periotto</strong>, desenvolvedor apaixonado por criar soluções digitais que fazem a diferença. Minha jornada na programação começou há mais de quatro anos, e desde então venho me dedicando a dominar as tecnologias mais relevantes do mercado.
               </p>
@@ -92,39 +89,32 @@ export function Sobre() {
               ))}
             </motion.div>
 
-            {/* Highlights */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-wrap gap-3"
-            >
-              {highlights.map((item, index) => (
-                <div
-                  key={item.text}
-                  className="flex items-center gap-2 px-4 py-2 rounded-full border border-border/50 bg-card/50 backdrop-blur-sm"
-                >
-                  <item.icon className="w-4 h-4 text-primary" />
-                  <span className="text-sm text-muted-foreground">{item.text}</span>
-                </div>
-              ))}
-            </motion.div>
           </motion.div>
 
-          {/* Right Column - Lanyard Card */}
+          {/* Right Column - Lanyard Card + ADS badge */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={isVisible ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="h-[500px] lg:h-[600px] rounded-2xl border border-border/30 bg-card/30 backdrop-blur-sm overflow-hidden"
+            className="flex flex-col gap-4"
           >
-            <Suspense fallback={
-              <div className="w-full h-full flex items-center justify-center">
-                <div className="text-muted-foreground text-sm">Carregando...</div>
+            <div className="h-[500px] lg:h-[600px] rounded-2xl border border-border/30 bg-card/30 backdrop-blur-sm overflow-hidden">
+              <Suspense fallback={
+                <div className="w-full h-full flex items-center justify-center">
+                  <div className="text-muted-foreground text-sm">Carregando...</div>
+                </div>
+              }>
+                <Lanyard className="w-full h-full" />
+              </Suspense>
+            </div>
+
+            {/* ADS highlight below the card */}
+            <div className="flex justify-center">
+              <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-border/50 bg-card/50 backdrop-blur-sm">
+                <GraduationCap className="w-4 h-4 text-primary" />
+                <span className="text-sm text-muted-foreground">Análise e Desenvolvimento de Sistemas</span>
               </div>
-            }>
-              <Lanyard className="w-full h-full" />
-            </Suspense>
+            </div>
           </motion.div>
 
         </div>
