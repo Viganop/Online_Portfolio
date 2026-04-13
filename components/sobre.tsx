@@ -6,7 +6,7 @@ import { GraduationCap } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
 // Carregar Lanyard dinamicamente para evitar SSR issues
-const Lanyard = dynamic(() => import('./lanyard').then(mod => ({ default: mod.Lanyard })), {
+const Lanyard = dynamic(() => import('./lanyard'), {
   ssr: false,
   loading: () => (
     <div className="w-full h-full rounded-2xl border border-border/30 bg-card/30 backdrop-blur-sm flex items-center justify-center">
@@ -104,7 +104,7 @@ export function Sobre() {
                   <div className="text-muted-foreground text-sm">Carregando...</div>
                 </div>
               }>
-                <Lanyard className="w-full h-full" />
+                <Lanyard position={[0, 0, 20]} fov={20} gravity={[0, -40, 0]} />
               </Suspense>
             </div>
 
