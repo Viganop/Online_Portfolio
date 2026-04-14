@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { MessageCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 import Silk from '@/components/ui/silk';
+import BlurText from '@/components/ui/blur-text';
+import SplitText from '@/components/ui/split-text';
 
 export function Hero() {
   const [isVisible, setIsVisible] = useState(false);
@@ -31,29 +33,16 @@ export function Hero() {
 
       <div className="relative z-10 flex flex-col items-center text-center px-4 mt-24">
 
-        {/* Nome */}
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight text-foreground mb-5"
-        >
-          Sites e aplicativos<br />construídos para<br />Destacar você.
-        </motion.h1>
-
-        {/* Badge — FULL-STACK DEVELOPER */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex items-center gap-3 mb-6"
-        >
-          <span className="h-px w-10 bg-primary" />
-          <span className="text-xs font-semibold tracking-[0.25em] text-primary uppercase">
-            Full-Stack Developer
-          </span>
-          <span className="h-px w-10 bg-primary" />
-        </motion.div>
+        {/* Título com animação BlurText */}
+        <BlurText
+          text="Sites e aplicativos construídos para Destacar você."
+          delay={110}
+          animateBy="words"
+          direction="top"
+          duration={0.5}
+          visible={isVisible}
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight text-foreground mb-5 max-w-4xl justify-center"
+        />
 
         {/* Subtítulo */}
         <motion.p
@@ -71,7 +60,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={isVisible ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex flex-col items-center gap-4"
+          className="flex flex-col items-center gap-6"
         >
           <motion.a
             href="https://wa.me/5500000000000"
@@ -85,6 +74,67 @@ export function Hero() {
             <MessageCircle className="w-4 h-4 text-primary" />
             Falar no WhatsApp
           </motion.a>
+
+          {/* Stats com animação SplitText */}
+          <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 mt-4">
+            <div className="flex flex-col items-center">
+              <SplitText
+                text="5+"
+                className="text-2xl sm:text-3xl font-bold text-primary"
+                delay={80}
+                duration={0.8}
+                ease="power3.out"
+                splitType="chars"
+                from={{ opacity: 0, y: 30 }}
+                to={{ opacity: 1, y: 0 }}
+                threshold={0.1}
+                rootMargin="0px"
+                textAlign="center"
+                tag="span"
+              />
+              <span className="text-xs sm:text-sm text-muted-foreground mt-1">Projetos Entregues</span>
+            </div>
+            
+            <div className="w-px h-10 bg-border hidden sm:block" />
+            
+            <div className="flex flex-col items-center">
+              <SplitText
+                text="100%"
+                className="text-2xl sm:text-3xl font-bold text-primary"
+                delay={80}
+                duration={0.8}
+                ease="power3.out"
+                splitType="chars"
+                from={{ opacity: 0, y: 30 }}
+                to={{ opacity: 1, y: 0 }}
+                threshold={0.1}
+                rootMargin="0px"
+                textAlign="center"
+                tag="span"
+              />
+              <span className="text-xs sm:text-sm text-muted-foreground mt-1">de Satisfação</span>
+            </div>
+            
+            <div className="w-px h-10 bg-border hidden sm:block" />
+            
+            <div className="flex flex-col items-center">
+              <SplitText
+                text="4+"
+                className="text-2xl sm:text-3xl font-bold text-primary"
+                delay={80}
+                duration={0.8}
+                ease="power3.out"
+                splitType="chars"
+                from={{ opacity: 0, y: 30 }}
+                to={{ opacity: 1, y: 0 }}
+                threshold={0.1}
+                rootMargin="0px"
+                textAlign="center"
+                tag="span"
+              />
+              <span className="text-xs sm:text-sm text-muted-foreground mt-1">Anos de Experiência</span>
+            </div>
+          </div>
         </motion.div>
 
       </div>
