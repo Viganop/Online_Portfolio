@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
-import { ExternalLink, Github, ArrowUpRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { ExternalLink, Github, ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Projeto {
   id: string;
@@ -12,7 +12,6 @@ interface Projeto {
   tags: string[];
   github?: string;
   demo?: string;
-  destaque?: boolean;
 }
 
 const PROJETOS: Projeto[] = [
@@ -24,7 +23,6 @@ const PROJETOS: Projeto[] = [
     tags: ['Next.js', 'TypeScript', 'Stripe', 'PostgreSQL'],
     github: '#',
     demo: '#',
-    destaque: true,
   },
   {
     id: '2',
@@ -56,6 +54,7 @@ const PROJETOS: Projeto[] = [
 
 export function Projetos() {
   const [isVisible, setIsVisible] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -66,6 +65,16 @@ export function Projetos() {
     if (el) observer.observe(el);
     return () => observer.disconnect();
   }, []);
+
+  const nextProject = () => {
+    setCurrentIndex((prev) => (prev + 1) % PROJETOS.length);
+  };
+
+  const prevProject = () => {
+    setCurrentIndex((prev) => (prev - 1 + PROJETOS.length) % PROJETOS.length);
+  };
+
+  const projeto = PROJETOS[currentIndex];
 
   return (
     <section id="projetos" className="relative py-32">
@@ -87,27 +96,44 @@ export function Projetos() {
           </div>
 
           <h2 className="text-4xl sm:text-5xl font-black text-foreground mb-6 text-balance">
-            Projetos selecionados
+            Projetos
           </h2>
           <p className="text-muted-foreground text-lg">
             Uma seleção dos meus trabalhos mais recentes. Cada projeto representa um desafio único resolvido com dedicação e criatividade.
           </p>
         </motion.div>
 
-        {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          {PROJETOS.map((projeto, index) => (
+        {/* Carousel */}
+        <div className="relative max-w-4xl mx-auto">
+          {/* Navigation Arrows */}
+          <button
+            onClick={prevProject}
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-16 z-10 p-3 rounded-full border border-border/50 bg-background/80 backdrop-blur-sm text-foreground hover:border-primary/50 hover:text-primary transition-all"
+            aria-label="Projeto anterior"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+          
+          <button
+            onClick={nextProject}
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-16 z-10 p-3 rounded-full border border-border/50 bg-background/80 backdrop-blur-sm text-foreground hover:border-primary/50 hover:text-primary transition-all"
+            aria-label="Próximo projeto"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+
+          {/* Project Card */}
+          <AnimatePresence mode="wait">
             <motion.article
               key={projeto.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
-              className={`group relative rounded-2xl border border-border/30 bg-card/30 backdrop-blur-sm overflow-hidden hover:border-primary/30 transition-all duration-300 ${
-                projeto.destaque ? 'md:col-span-2' : ''
-              }`}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              transition={{ duration: 0.3 }}
+              className="group relative rounded-2xl border border-border/30 bg-card/30 backdrop-blur-sm overflow-hidden"
             >
               {/* Image */}
-              <div className={`relative overflow-hidden ${projeto.destaque ? 'h-72 sm:h-96' : 'h-56'}`}>
+              <div className="relative overflow-hidden h-72 sm:h-96">
                 <img
                   src={projeto.imagem}
                   alt={projeto.titulo}
@@ -116,7 +142,7 @@ export function Projetos() {
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
                 
                 {/* Floating action buttons */}
-                <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute top-4 right-4 flex gap-2">
                   {projeto.github && (
                     <a
                       href={projeto.github}
@@ -141,15 +167,15 @@ export function Projetos() {
               </div>
 
               {/* Content */}
-              <div className="p-6">
+              <div className="p-6 sm:p-8">
                 <div className="flex items-start justify-between gap-4 mb-3">
-                  <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
+                  <h3 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
                     {projeto.titulo}
                   </h3>
                   <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0" />
                 </div>
                 
-                <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                <p className="text-muted-foreground text-base leading-relaxed mb-6">
                   {projeto.descricao}
                 </p>
 
@@ -166,7 +192,23 @@ export function Projetos() {
                 </div>
               </div>
             </motion.article>
-          ))}
+          </AnimatePresence>
+
+          {/* Dots Indicator */}
+          <div className="flex justify-center gap-2 mt-8">
+            {PROJETOS.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`w-2.5 h-2.5 rounded-full transition-all ${
+                  index === currentIndex 
+                    ? 'bg-primary w-8' 
+                    : 'bg-border hover:bg-primary/50'
+                }`}
+                aria-label={`Ir para projeto ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
 
         {/* View all projects CTA */}
