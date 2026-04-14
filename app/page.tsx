@@ -1,8 +1,7 @@
 import { Navbar } from '@/components/navbar';
 import { Hero } from '@/components/hero';
-import { Sobre } from '@/components/sobre';
+import { ProblemaSolucao } from '@/components/problema-solucao';
 import { Projetos } from '@/components/projetos';
-import { Linguagens } from '@/components/linguagens';
 import { Contato } from '@/components/contato';
 import { Footer } from '@/components/footer';
 
@@ -11,9 +10,8 @@ export default function Home() {
     <main className="min-h-screen bg-background">
       <Navbar />
       <Hero />
-      <Sobre />
+      <ProblemaSolucao />
       <Projetos />
-      <Linguagens />
       <Contato />
       <Footer />
     </main>
