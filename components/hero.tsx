@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Search } from 'lucide-react';
+import { MessageCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 import Silk from '@/components/ui/silk';
 
@@ -38,7 +38,7 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight text-foreground mb-5"
         >
-          Lucca Viganon<br />Periotto
+          Sites e aplicativos<br />construídos para<br />Destacar você.
         </motion.h1>
 
         {/* Badge — FULL-STACK DEVELOPER */}
@@ -62,8 +62,8 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="text-base sm:text-lg text-muted-foreground max-w-md mb-10 leading-relaxed"
         >
-          Desenvolvedor web especializado na criação de<br />
-          experiências modernas e eficientes.
+          Cada projeto é tratado com foco em performance,<br />
+          crescimento e resultado.
         </motion.p>
 
         {/* CTA */}
@@ -74,14 +74,16 @@ export function Hero() {
           className="flex flex-col items-center gap-4"
         >
           <motion.a
-            href="#projetos"
+            href="https://wa.me/5500000000000"
+            target="_blank"
+            rel="noopener noreferrer"
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
             transition={{ type: 'spring', stiffness: 400, damping: 20 }}
             className="inline-flex items-center gap-2 border border-primary px-10 py-4 text-sm font-bold tracking-widest uppercase text-foreground hover:bg-primary/10 transition-colors"
           >
-            <Search className="w-4 h-4 text-primary" />
-            Veja meus trabalhos
+            <MessageCircle className="w-4 h-4 text-primary" />
+            Falar no WhatsApp
           </motion.a>
         </motion.div>
 
