@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { motion } from 'motion/react';
-import LightRays from '@/components/ui/light-rays';
+import Silk from '@/components/ui/silk';
 
 export function Hero() {
   const [isVisible, setIsVisible] = useState(false);
@@ -15,21 +15,14 @@ export function Hero() {
   return (
     <section id="inicio" className="relative min-h-screen flex items-center justify-center overflow-hidden">
 
-      {/* LightRays background */}
+      {/* Silk background */}
       <div className="absolute inset-0 z-0">
-        <LightRays
-          raysOrigin="top-center"
-          raysColor="#ffffff"
-          raysSpeed={1}
-          lightSpread={0.5}
-          rayLength={3}
-          followMouse={true}
-          mouseInfluence={0.1}
-          noiseAmount={0}
-          distortion={0}
-          pulsating={false}
-          fadeDistance={1}
-          saturation={1}
+        <Silk
+          speed={5}
+          scale={1}
+          color="#7B7481"
+          noiseIntensity={1.5}
+          rotation={0}
         />
       </div>
 
