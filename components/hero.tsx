@@ -5,7 +5,7 @@ import { MessageCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 import Silk from '@/components/ui/silk';
 import BlurText from '@/components/ui/blur-text';
-import SplitText from '@/components/ui/split-text';
+import CountUp from '@/components/ui/count-up';
 
 export function Hero() {
   const [isVisible, setIsVisible] = useState(false);
@@ -75,22 +75,16 @@ export function Hero() {
             Falar no WhatsApp
           </motion.a>
 
-          {/* Stats com animação SplitText */}
+          {/* Stats com animação CountUp */}
           <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 mt-4">
             <div className="flex flex-col items-center">
-              <SplitText
-                text="5+"
+              <CountUp
+                from={0}
+                to={5}
+                suffix="+"
+                duration={2}
+                delay={0.6}
                 className="text-2xl sm:text-3xl font-bold text-primary"
-                delay={80}
-                duration={0.8}
-                ease="power3.out"
-                splitType="chars"
-                from={{ opacity: 0, y: 30 }}
-                to={{ opacity: 1, y: 0 }}
-                textAlign="center"
-                tag="span"
-                animateOnLoad={true}
-                animationDelay={0.6}
               />
               <span className="text-xs sm:text-sm text-muted-foreground mt-1">Projetos Entregues</span>
             </div>
@@ -98,19 +92,13 @@ export function Hero() {
             <div className="w-px h-10 bg-border hidden sm:block" />
             
             <div className="flex flex-col items-center">
-              <SplitText
-                text="100%"
+              <CountUp
+                from={0}
+                to={100}
+                suffix="%"
+                duration={2}
+                delay={0.8}
                 className="text-2xl sm:text-3xl font-bold text-primary"
-                delay={80}
-                duration={0.8}
-                ease="power3.out"
-                splitType="chars"
-                from={{ opacity: 0, y: 30 }}
-                to={{ opacity: 1, y: 0 }}
-                textAlign="center"
-                tag="span"
-                animateOnLoad={true}
-                animationDelay={0.8}
               />
               <span className="text-xs sm:text-sm text-muted-foreground mt-1">de Satisfação</span>
             </div>
@@ -118,19 +106,13 @@ export function Hero() {
             <div className="w-px h-10 bg-border hidden sm:block" />
             
             <div className="flex flex-col items-center">
-              <SplitText
-                text="4+"
+              <CountUp
+                from={0}
+                to={4}
+                suffix="+"
+                duration={2}
+                delay={1.0}
                 className="text-2xl sm:text-3xl font-bold text-primary"
-                delay={80}
-                duration={0.8}
-                ease="power3.out"
-                splitType="chars"
-                from={{ opacity: 0, y: 30 }}
-                to={{ opacity: 1, y: 0 }}
-                textAlign="center"
-                tag="span"
-                animateOnLoad={true}
-                animationDelay={1.0}
               />
               <span className="text-xs sm:text-sm text-muted-foreground mt-1">Anos de Experiência</span>
             </div>
