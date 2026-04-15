@@ -122,12 +122,12 @@ export function Contato() {
               <BorderGlow
                 edgeSensitivity={7}
                 glowColor="40 80 80"
-                backgroundColor="#0d0a12"
+                backgroundColor="#08060b"
                 borderRadius={24}
                 glowRadius={52}
                 glowIntensity={1.4}
                 coneSpread={25}
-                animated
+                animationLoop
                 colors={['#c084fc', '#f472b6', '#38bdf8']}
                 className="h-full"
               >

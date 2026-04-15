@@ -13,6 +13,7 @@ interface BorderGlowProps {
   glowIntensity?: number;
   coneSpread?: number;
   animated?: boolean;
+  animationLoop?: boolean;
   colors?: string[];
   fillOpacity?: number;
 }
@@ -83,6 +84,7 @@ const BorderGlow: React.FC<BorderGlowProps> = ({
   glowIntensity = 1.0,
   coneSpread = 25,
   animated = false,
+  animationLoop = false,
   colors = ['#c084fc', '#f472b6', '#38bdf8'],
   fillOpacity = 0.5,
 }) => {
@@ -130,7 +132,30 @@ const BorderGlow: React.FC<BorderGlowProps> = ({
   }, [getEdgeProximity, getCursorAngle]);
 
   useEffect(() => {
-    if (!animated) return;
+    if (!animated && !animationLoop) return;
+    
+    if (animationLoop) {
+      // Loop animation - continuous rotation
+      setSweepActive(true);
+      setEdgeProximity(0.8);
+      let animationId: number;
+      let startTime: number | null = null;
+      const duration = 4000; // 4 seconds per rotation
+      
+      const animate = (timestamp: number) => {
+        if (!startTime) startTime = timestamp;
+        const elapsed = timestamp - startTime;
+        const progress = (elapsed % duration) / duration;
+        const angle = progress * 360;
+        setCursorAngle(angle);
+        animationId = requestAnimationFrame(animate);
+      };
+      
+      animationId = requestAnimationFrame(animate);
+      return () => cancelAnimationFrame(animationId);
+    }
+    
+    // One-time sweep animation
     const angleStart = 110;
     const angleEnd = 465;
     setSweepActive(true);
@@ -147,7 +172,7 @@ const BorderGlow: React.FC<BorderGlowProps> = ({
       onUpdate: v => setEdgeProximity(v / 100),
       onEnd: () => setSweepActive(false),
     });
-  }, [animated]);
+  }, [animated, animationLoop]);
 
   const colorSensitivity = edgeSensitivity + 20;
   const isVisible = isHovered || sweepActive;
