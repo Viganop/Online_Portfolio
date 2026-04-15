@@ -87,10 +87,10 @@ export function Hero() {
                 splitType="chars"
                 from={{ opacity: 0, y: 30 }}
                 to={{ opacity: 1, y: 0 }}
-                threshold={0.1}
-                rootMargin="0px"
                 textAlign="center"
                 tag="span"
+                animateOnLoad={true}
+                animationDelay={0.6}
               />
               <span className="text-xs sm:text-sm text-muted-foreground mt-1">Projetos Entregues</span>
             </div>
@@ -107,10 +107,10 @@ export function Hero() {
                 splitType="chars"
                 from={{ opacity: 0, y: 30 }}
                 to={{ opacity: 1, y: 0 }}
-                threshold={0.1}
-                rootMargin="0px"
                 textAlign="center"
                 tag="span"
+                animateOnLoad={true}
+                animationDelay={0.8}
               />
               <span className="text-xs sm:text-sm text-muted-foreground mt-1">de Satisfação</span>
             </div>
@@ -127,10 +127,10 @@ export function Hero() {
                 splitType="chars"
                 from={{ opacity: 0, y: 30 }}
                 to={{ opacity: 1, y: 0 }}
-                threshold={0.1}
-                rootMargin="0px"
                 textAlign="center"
                 tag="span"
+                animateOnLoad={true}
+                animationDelay={1.0}
               />
               <span className="text-xs sm:text-sm text-muted-foreground mt-1">Anos de Experiência</span>
             </div>
