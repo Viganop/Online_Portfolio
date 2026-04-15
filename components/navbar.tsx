@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Menu, X, Globe, Settings, Sun, Moon, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTheme, ColorTheme } from '@/components/theme-context';
+import Image from 'next/image';
 
 const NAV_LINKS = [
   { label: 'Início',     href: '#inicio' },
@@ -48,8 +49,22 @@ export function Navbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 grid grid-cols-3 items-center pt-8 px-10">
 
-      {/* Col 1 — empty left */}
-      <div />
+      {/* Col 1 — Logo */}
+      <motion.div
+        initial={{ opacity: 0, y: -16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className="flex items-center gap-3"
+      >
+        <Image
+          src="/images/titan-labs-logo.png"
+          alt="Titan Labs Logo"
+          width={40}
+          height={40}
+          className="rounded-xl"
+        />
+        <span className="text-lg font-bold text-foreground tracking-tight">Titan Labs</span>
+      </motion.div>
 
       {/* Col 2 — pill nav, truly centered */}
       <div className="flex justify-center">
