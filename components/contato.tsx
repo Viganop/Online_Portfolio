@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Mail, Github, Linkedin, MessageCircle, ArrowUpRight } from 'lucide-react';
+import BorderGlow from '@/components/ui/border-glow';
 
 const SOCIAL_LINKS = [
   { 
@@ -98,31 +99,43 @@ export function Contato() {
                   <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </motion.a>
               ))}
+
+              {/* Disponível para novos projetos */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={isVisible ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.3, delay: 0.5 }}
+                className="flex items-center gap-3 p-4 rounded-xl border border-green-500/30 bg-green-500/5"
+              >
+                <span className="w-3 h-3 rounded-full bg-green-500 animate-pulse" />
+                <span className="text-sm font-medium text-green-500">Disponível para novos projetos</span>
+              </motion.div>
             </motion.div>
 
-            {/* Right - CTA Card */}
+            {/* Right - CTA Card with BorderGlow */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={isVisible ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.2 }}
               className="lg:col-span-3"
             >
-              <div className="h-full p-8 sm:p-12 rounded-3xl bg-primary relative overflow-hidden">
-                {/* Background decoration */}
-                <div className="absolute top-0 right-0 w-72 h-72 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
-                <div className="absolute bottom-0 left-0 w-56 h-56 bg-black/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4" />
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-white/5 via-transparent to-transparent" />
-
-                <div className="relative z-10">
-                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/15 border border-white/20 mb-6 backdrop-blur-sm">
-                    <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                    <span className="text-sm text-white font-medium">Disponível para novos projetos</span>
-                  </div>
-
+              <BorderGlow
+                edgeSensitivity={7}
+                glowColor="40 80 80"
+                backgroundColor="#1a1625"
+                borderRadius={24}
+                glowRadius={52}
+                glowIntensity={1.4}
+                coneSpread={25}
+                animated
+                colors={['#c084fc', '#f472b6', '#38bdf8']}
+                className="h-full"
+              >
+                <div className="p-8 sm:p-12 flex flex-col items-center justify-center text-center h-full">
                   <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4 text-balance">
                     Bora bater um papo?
                   </h3>
-                  <p className="text-white/80 mb-8 leading-relaxed">
+                  <p className="text-white/70 mb-8 leading-relaxed max-w-md">
                     Estou sempre em busca de desafios interessantes. Se você tem uma ideia que precisa ganhar vida, vamos conversar sobre como posso ajudar a transformá-la em realidade.
                   </p>
 
@@ -130,14 +143,13 @@ export function Contato() {
                     href="https://wa.me/5516999999999?text=Olá! Vi seu portfólio e gostaria de conversar."
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-primary font-semibold hover:bg-white/90 transition-all hover:scale-[1.02] shadow-lg shadow-black/20 group"
+                    className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-all hover:scale-[1.02] shadow-lg shadow-primary/20 group"
                   >
                     <MessageCircle className="w-5 h-5" />
                     Chamar no Whatsapp
-                    <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </a>
                 </div>
-              </div>
+              </BorderGlow>
             </motion.div>
 
           </div>
