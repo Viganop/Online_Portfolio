@@ -24,10 +24,10 @@ const PROJETOS: Projeto[] = [
   },
   {
     id: '2',
-    titulo: 'Task Management',
-    descricao: 'Aplicativo de gerenciamento de tarefas com drag-and-drop e colaboração em tempo real.',
-    imagem: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=600&fit=crop',
-    categoria: 'Aplicativo Web',
+    titulo: 'Pastel do Zé',
+    descricao: 'Landing page para pastelaria tradicional com cardápio digital, localização e horários de funcionamento.',
+    imagem: '/images/pastel-do-ze.png',
+    categoria: 'Landing Page',
     demo: '#',
   },
   {
@@ -161,14 +161,26 @@ export function Projetos() {
               >
                 {/* Image */}
                 <div className="relative aspect-[16/10] overflow-hidden rounded-3xl">
+                  {/* Blurred Background Layer */}
+                  <img
+                    src={currentProject.imagem}
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute inset-0 w-full h-full object-cover blur-sm scale-105"
+                  />
+                  
+                  {/* Glass Overlay */}
+                  <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px]" />
+                  
+                  {/* Clear Image on top with slight transparency */}
                   <img
                     src={currentProject.imagem}
                     alt={currentProject.titulo}
-                    className="w-full h-full object-cover"
+                    className="relative w-full h-full object-cover opacity-90"
                   />
                   
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  {/* Gradient Overlay for text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />
                   
                   {/* Category Badge */}
                   <div className="absolute top-6 left-6">
