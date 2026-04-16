@@ -17,6 +17,7 @@ import {
   BarChart3
 } from 'lucide-react';
 import CountUp from '@/components/ui/count-up';
+import ShinyText from '@/components/ui/shiny-text';
 
 const SERVICOS = [
   {
@@ -324,8 +325,16 @@ export function ProblemaSolucao() {
                     <div className="absolute inset-0 w-14 h-14 rounded-2xl bg-white/20 blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-500" />
                   </div>
                   
-                  <h3 className="text-lg font-semibold text-white/90 mb-3 group-hover:text-white transition-colors duration-300">
-                    {servico.titulo}
+                  <h3 className="text-lg font-semibold mb-3">
+                    <ShinyText
+                      text={servico.titulo}
+                      color="rgba(255,255,255,0.9)"
+                      shineColor="#ffffff"
+                      speed={3}
+                      delay={1}
+                      spread={120}
+                      className="group-hover:opacity-100"
+                    />
                   </h3>
                   <p className="text-white/40 text-sm leading-relaxed group-hover:text-white/55 transition-colors duration-300">
                     {servico.descricao}
