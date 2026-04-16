@@ -188,8 +188,6 @@ export function Projetos() {
                   <ChevronDown className="w-5 h-5 text-white" />
                 </motion.div>
               </motion.button>
-
-              {
             </motion.div>
           </div>
 
