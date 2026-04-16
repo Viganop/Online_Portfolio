@@ -120,184 +120,171 @@ export function ProblemaSolucao() {
           </div>
 
           {/* Elementos Visuais - Abaixo dos cards de resultados */}
-          <div className="relative h-[400px] lg:h-[450px] max-w-4xl mx-auto">
+          <div className="relative h-[380px] lg:h-[420px] max-w-5xl mx-auto mt-8">
             
-            {/* Luzes de fundo */}
+            {/* Luzes de fundo - mais sutis */}
             <motion.div
               animate={{ 
-                scale: [1, 1.3, 1],
-                opacity: [0.4, 0.6, 0.4]
+                scale: [1, 1.2, 1],
+                opacity: [0.2, 0.35, 0.2]
               }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-0 left-1/4 w-72 h-72 bg-primary/40 rounded-full blur-[100px]"
-            />
-            <motion.div
-              animate={{ 
-                scale: [1.2, 1, 1.2],
-                opacity: [0.3, 0.5, 0.3]
-              }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              className="absolute bottom-0 right-1/4 w-80 h-80 bg-blue-500/30 rounded-full blur-[120px]"
-            />
-            <motion.div
-              animate={{ 
-                scale: [1, 1.4, 1],
-                opacity: [0.25, 0.4, 0.25]
-              }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-              className="absolute top-1/3 right-1/3 w-64 h-64 bg-purple-500/30 rounded-full blur-[80px]"
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-primary/20 rounded-full blur-[120px]"
             />
 
-            {/* Dashboard Central */}
-            <motion.div
-              initial={{ opacity: 0, y: 30, rotateX: 10 }}
-              animate={isVisible ? { opacity: 1, y: 0, rotateX: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-card/70 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl shadow-black/20 overflow-hidden"
-            >
-              {/* Browser bar */}
-              <div className="flex items-center gap-2 px-5 py-3.5 border-b border-white/5 bg-card/30">
-                <div className="flex gap-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                  <div className="w-3 h-3 rounded-full bg-green-500" />
-                </div>
-                <div className="flex-1 ml-4">
-                  <div className="bg-white/5 rounded-lg px-4 py-1.5 text-xs text-muted-foreground max-w-[180px] flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-green-500/50" />
-                    seusite.com.br
+            {/* Layout em grid para melhor alinhamento */}
+            <div className="relative h-full grid grid-cols-12 gap-6 items-center">
+              
+              {/* Coluna Esquerda - Gráfico de Vendas */}
+              <motion.div
+                initial={{ opacity: 0, x: -40 }}
+                animate={isVisible ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="col-span-12 md:col-span-4 lg:col-span-3"
+              >
+                <div className="bg-card/60 backdrop-blur-xl rounded-2xl border border-white/10 p-5">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <div className="w-9 h-9 rounded-xl bg-green-500/20 flex items-center justify-center">
+                        <TrendingUp className="w-5 h-5 text-green-500" />
+                      </div>
+                      <span className="text-sm font-semibold text-foreground">Vendas</span>
+                    </div>
+                    <div className="flex items-center gap-1 bg-green-500/10 px-2.5 py-1 rounded-full">
+                      <TrendingUp className="w-3 h-3 text-green-500" />
+                      <span className="text-xs font-bold text-green-500">+127%</span>
+                    </div>
+                  </div>
+                  <div className="flex items-end gap-1.5 h-24">
+                    {[25, 40, 30, 55, 45, 70, 60, 85, 75, 95, 88, 100].map((height, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ height: 0 }}
+                        animate={isVisible ? { height: `${height}%` } : {}}
+                        transition={{ duration: 0.6, delay: 0.6 + i * 0.04 }}
+                        className="flex-1 bg-gradient-to-t from-green-500/60 to-green-400 rounded-t-md"
+                      />
+                    ))}
                   </div>
                 </div>
-              </div>
-              {/* Content */}
-              <div className="p-5">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="h-4 bg-gradient-to-r from-primary/40 to-primary/20 rounded-full w-32" />
-                  <div className="h-4 bg-white/5 rounded-full w-20" />
-                </div>
-                <div className="space-y-2 mb-5">
-                  <div className="h-2.5 bg-white/10 rounded-full w-full" />
-                  <div className="h-2.5 bg-white/10 rounded-full w-4/5" />
-                  <div className="h-2.5 bg-white/10 rounded-full w-3/5" />
-                </div>
-                <div className="grid grid-cols-3 gap-3">
-                  <div className="h-20 bg-gradient-to-br from-primary/20 to-primary/5 rounded-xl border border-primary/10 flex items-center justify-center">
-                    <Globe className="w-6 h-6 text-primary/60" />
-                  </div>
-                  <div className="h-20 bg-gradient-to-br from-blue-500/20 to-blue-500/5 rounded-xl border border-blue-500/10 flex items-center justify-center">
-                    <ShoppingBag className="w-6 h-6 text-blue-500/60" />
-                  </div>
-                  <div className="h-20 bg-gradient-to-br from-purple-500/20 to-purple-500/5 rounded-xl border border-purple-500/10 flex items-center justify-center">
-                    <Users className="w-6 h-6 text-purple-500/60" />
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+              </motion.div>
 
-            {/* Gráfico de Vendas - Esquerda */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={isVisible ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.7 }}
-              className="absolute bottom-8 left-0 bg-card/80 backdrop-blur-xl rounded-2xl border border-white/10 p-5 shadow-2xl shadow-black/20"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center">
-                    <TrendingUp className="w-4 h-4 text-green-500" />
+              {/* Coluna Central - Dashboard */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={isVisible ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="col-span-12 md:col-span-4 lg:col-span-6"
+              >
+                <div className="bg-card/60 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden">
+                  {/* Browser bar */}
+                  <div className="flex items-center gap-2 px-5 py-3 border-b border-white/5 bg-card/30">
+                    <div className="flex gap-1.5">
+                      <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
+                      <div className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
+                      <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
+                    </div>
+                    <div className="flex-1 ml-3">
+                      <div className="bg-white/5 rounded-lg px-3 py-1 text-xs text-muted-foreground max-w-[160px] flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-green-500/60" />
+                        seusite.com.br
+                      </div>
+                    </div>
                   </div>
-                  <span className="text-sm font-semibold text-foreground">Vendas</span>
-                </div>
-                <div className="flex items-center gap-1 bg-green-500/10 px-2.5 py-1 rounded-full">
-                  <TrendingUp className="w-3 h-3 text-green-500" />
-                  <span className="text-xs font-bold text-green-500">+127%</span>
-                </div>
-              </div>
-              <div className="flex items-end gap-1.5 h-20">
-                {[25, 40, 30, 55, 45, 70, 60, 85, 75, 95, 88, 100].map((height, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ height: 0 }}
-                    animate={isVisible ? { height: `${height}%` } : {}}
-                    transition={{ duration: 0.6, delay: 0.8 + i * 0.05 }}
-                    className="w-4 bg-gradient-to-t from-green-500/60 to-green-400 rounded-t-md"
-                  />
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Card de Receita - Direita */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={isVisible ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.9 }}
-              className="absolute bottom-8 right-0 bg-card/80 backdrop-blur-xl rounded-2xl border border-white/10 p-4 shadow-2xl shadow-black/20"
-            >
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center shadow-lg shadow-primary/30">
-                  <DollarSign className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <p className="text-xs text-muted-foreground mb-0.5">Receita Total</p>
-                  <p className="text-2xl font-bold text-foreground">R$ 48.5k</p>
-                  <p className="text-xs text-green-500 flex items-center gap-1">
-                    <TrendingUp className="w-3 h-3" />
-                    +23% este mês
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Notificação de Venda */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={isVisible ? { 
-                opacity: [0, 1, 1, 0],
-                scale: [0.8, 1, 1, 0.9],
-                y: [20, 0, 0, -10]
-              } : {}}
-              transition={{ 
-                duration: 3, 
-                repeat: Infinity, 
-                repeatDelay: 2,
-                delay: 1.2
-              }}
-              className="absolute top-[220px] right-4 bg-green-500 backdrop-blur-md rounded-xl px-4 py-3 shadow-xl shadow-green-500/30"
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                  <CheckCircle2 className="w-4 h-4 text-white" />
-                </div>
-                <div>
-                  <p className="text-xs font-bold text-white">Nova venda!</p>
-                  <p className="text-[10px] text-white/80">R$ 297,00</p>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Usuários Online */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 1.1 }}
-              className="absolute top-[220px] left-4 bg-card/80 backdrop-blur-xl rounded-xl px-4 py-3 border border-white/10 shadow-xl"
-            >
-              <div className="flex items-center gap-3">
-                <div className="flex -space-x-2">
-                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary to-primary/60 border-2 border-card flex items-center justify-center text-[10px] font-bold text-white">J</div>
-                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 to-blue-500/60 border-2 border-card flex items-center justify-center text-[10px] font-bold text-white">M</div>
-                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-purple-500 to-purple-500/60 border-2 border-card flex items-center justify-center text-[10px] font-bold text-white">A</div>
-                </div>
-                <div>
-                  <p className="text-xs font-semibold text-foreground">24 online</p>
-                  <div className="flex items-center gap-1">
-                    <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                    <span className="text-[10px] text-green-500">ao vivo</span>
+                  {/* Content */}
+                  <div className="p-5">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="h-4 bg-gradient-to-r from-primary/40 to-primary/20 rounded-full w-28" />
+                      <div className="h-4 bg-white/5 rounded-full w-16" />
+                    </div>
+                    <div className="space-y-2 mb-4">
+                      <div className="h-2 bg-white/10 rounded-full w-full" />
+                      <div className="h-2 bg-white/10 rounded-full w-4/5" />
+                      <div className="h-2 bg-white/10 rounded-full w-3/5" />
+                    </div>
+                    <div className="grid grid-cols-3 gap-2">
+                      <div className="h-16 bg-gradient-to-br from-primary/20 to-primary/5 rounded-xl border border-primary/10 flex items-center justify-center">
+                        <Globe className="w-5 h-5 text-primary/60" />
+                      </div>
+                      <div className="h-16 bg-gradient-to-br from-blue-500/20 to-blue-500/5 rounded-xl border border-blue-500/10 flex items-center justify-center">
+                        <ShoppingBag className="w-5 h-5 text-blue-500/60" />
+                      </div>
+                      <div className="h-16 bg-gradient-to-br from-purple-500/20 to-purple-500/5 rounded-xl border border-purple-500/10 flex items-center justify-center">
+                        <Users className="w-5 h-5 text-purple-500/60" />
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </motion.div>
+                
+                {/* Notificações flutuantes sobre o dashboard */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={isVisible ? { 
+                    opacity: [0, 1, 1, 0],
+                    scale: [0.8, 1, 1, 0.95],
+                  } : {}}
+                  transition={{ 
+                    duration: 3, 
+                    repeat: Infinity, 
+                    repeatDelay: 2,
+                    delay: 1
+                  }}
+                  className="absolute top-4 right-1/4 bg-green-500 rounded-xl px-3 py-2 shadow-lg shadow-green-500/20"
+                >
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-white" />
+                    <div>
+                      <p className="text-xs font-bold text-white">Nova venda!</p>
+                      <p className="text-[10px] text-white/80">R$ 297,00</p>
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
 
+              {/* Coluna Direita - Receita + Usuários */}
+              <motion.div
+                initial={{ opacity: 0, x: 40 }}
+                animate={isVisible ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="col-span-12 md:col-span-4 lg:col-span-3 space-y-4"
+              >
+                {/* Card de Receita */}
+                <div className="bg-card/60 backdrop-blur-xl rounded-2xl border border-white/10 p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center shadow-lg shadow-primary/20">
+                      <DollarSign className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-muted-foreground">Receita Total</p>
+                      <p className="text-xl font-bold text-foreground">R$ 48.5k</p>
+                      <p className="text-xs text-green-500 flex items-center gap-1">
+                        <TrendingUp className="w-3 h-3" />
+                        +23% este mês
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Usuários Online */}
+                <div className="bg-card/60 backdrop-blur-xl rounded-2xl border border-white/10 p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex -space-x-2">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary/60 border-2 border-card flex items-center justify-center text-[10px] font-bold text-white">J</div>
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-500/60 border-2 border-card flex items-center justify-center text-[10px] font-bold text-white">M</div>
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-purple-500/60 border-2 border-card flex items-center justify-center text-[10px] font-bold text-white">A</div>
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">24 online</p>
+                      <div className="flex items-center gap-1">
+                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                        <span className="text-xs text-green-500">ao vivo</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+            </div>
           </div>
         </motion.div>
 

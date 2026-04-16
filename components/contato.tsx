@@ -122,7 +122,7 @@ export function Contato() {
               <BorderGlow
                 edgeSensitivity={7}
                 glowColor="40 80 80"
-                backgroundColor="#08060b"
+                backgroundColor="oklch(0.12 0.02 250)"
                 borderRadius={24}
                 glowRadius={52}
                 glowIntensity={1.4}
