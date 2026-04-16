@@ -77,14 +77,6 @@ export function Avaliacoes() {
           transition={{ duration: 0.5 }}
           className="text-center mb-16 max-w-2xl mx-auto"
         >
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="h-px w-12 bg-primary" />
-            <span className="text-xs font-semibold tracking-[0.25em] text-primary uppercase">
-              Depoimentos
-            </span>
-            <div className="h-px w-12 bg-primary" />
-          </div>
-
           <h2 className="text-4xl sm:text-5xl font-black text-foreground mb-6 text-balance">
             O que nossos clientes dizem
           </h2>

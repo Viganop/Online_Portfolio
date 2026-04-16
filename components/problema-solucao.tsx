@@ -13,7 +13,8 @@ import {
   Users,
   Zap,
   DollarSign,
-  ShoppingBag
+  ShoppingBag,
+  Bot
 } from 'lucide-react';
 
 const RESULTADOS = [
@@ -59,6 +60,11 @@ const SERVICOS = [
     icon: Target,
     titulo: 'Tráfego Pago',
     descricao: 'Anúncios no Google e redes sociais que geram resultados reais e mensuráveis.',
+  },
+  {
+    icon: Bot,
+    titulo: 'Automação',
+    descricao: 'Soluções com inteligência artificial para automatizar processos e aumentar eficiência.',
   },
 ];
 
@@ -286,6 +292,24 @@ export function ProblemaSolucao() {
 
             </div>
           </div>
+
+          {/* CTA Button abaixo dos elementos visuais */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isVisible ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.8 }}
+            className="mt-12 text-center"
+          >
+            <a
+              href="https://wa.me/5500000000000"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 rounded-full font-semibold text-base hover:bg-primary/90 hover:scale-105 transition-all duration-300 shadow-lg shadow-primary/20"
+            >
+              <CheckCircle2 className="w-5 h-5" />
+              Quero crescer meu negócio
+            </a>
+          </motion.div>
         </motion.div>
 
         {/* Seção de Serviços */}

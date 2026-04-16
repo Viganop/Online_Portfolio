@@ -51,14 +51,6 @@ export function Contato() {
             transition={{ duration: 0.5 }}
             className="text-center mb-16"
           >
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <div className="h-px w-12 bg-primary" />
-              <span className="text-xs font-semibold tracking-[0.25em] text-primary uppercase">
-                Contato
-              </span>
-              <div className="h-px w-12 bg-primary" />
-            </div>
-
             <h2 className="text-4xl sm:text-5xl font-black text-foreground mb-6 text-balance">
               Vamos conversar?
             </h2>
@@ -100,15 +92,18 @@ export function Contato() {
                 </motion.a>
               ))}
 
-              {/* Disponível para novos projetos */}
+              {/* Disponível para novos projetos - estilo navbar */}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.3, delay: 0.5 }}
-                className="flex items-center gap-3 p-4 rounded-xl border border-green-500/30 bg-green-500/5"
+                className="flex items-center gap-3 rounded-full border border-white/10 bg-background/40 backdrop-blur-md px-4 py-3"
               >
-                <span className="w-3 h-3 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-sm font-medium text-green-500">Disponível para novos projetos</span>
+                <span className="relative flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500" />
+                </span>
+                <span className="text-sm font-medium text-foreground">Disponível para novos projetos</span>
               </motion.div>
             </motion.div>
 
