@@ -24,7 +24,7 @@ const PROJETOS: Projeto[] = [
     id: '2',
     titulo: 'Pastel do Zé',
     descricao: 'Landing page para pastelaria tradicional com cardápio digital, localização e horários de funcionamento.',
-    video: '/videos/projeto-1.mp4',
+    video: '/videos/pastel-do-ze.mp4',
     categoria: 'Landing Page',
   },
   {
@@ -110,17 +110,17 @@ export function Projetos() {
               loop
               muted
               playsInline
-              className="absolute inset-0 w-full h-full object-cover blur-md scale-105"
+              className="absolute inset-0 w-full h-full object-cover"
             >
               <source src={currentProject.video} type="video/mp4" />
             </video>
             
-            {/* Dark overlay */}
-            <div className="absolute inset-0 bg-black/60" />
+            {/* Light overlay */}
+            <div className="absolute inset-0 bg-black/20" />
             
-            {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50" />
+            {/* Gradient overlay - subtle */}
+            <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
           </motion.div>
         </AnimatePresence>
       </div>
@@ -189,15 +189,12 @@ export function Projetos() {
                 </motion.div>
               </motion.button>
 
-              {/* Current Index */}
-              <div className="text-white/50 text-xs font-mono mt-2">
-                {String(currentIndex + 1).padStart(2, '0')}/{String(PROJETOS.length).padStart(2, '0')}
-              </div>
+              {
             </motion.div>
           </div>
 
           {/* Main Content */}
-          <div className="col-span-11 md:col-span-7 flex flex-col justify-center">
+          <div className="col-span-11 flex flex-col justify-center">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
@@ -263,43 +260,7 @@ export function Projetos() {
             </AnimatePresence>
           </div>
 
-          {/* Right Side - Visual Accent */}
-          <div className="hidden md:flex col-span-4 items-center justify-center">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={isVisible ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="relative"
-            >
-              {/* Decorative circles */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                  className="w-64 h-64 border border-white/10 rounded-full"
-                />
-              </div>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <motion.div
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                  className="w-48 h-48 border border-white/5 rounded-full"
-                />
-              </div>
-              
-              {/* Project number */}
-              <motion.div
-                key={currentIndex}
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.5 }}
-                transition={{ duration: 0.5 }}
-                className="relative z-10 text-[150px] font-black text-white/5 leading-none select-none"
-              >
-                {String(currentIndex + 1).padStart(2, '0')}
-              </motion.div>
-            </motion.div>
-          </div>
+          
 
         </div>
       </div>
