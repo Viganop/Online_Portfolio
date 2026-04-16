@@ -1,14 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { ExternalLink, Github, ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useMotionValue, useTransform, animate } from 'motion/react';
+import { ExternalLink, Github, ArrowLeft, ArrowRight } from 'lucide-react';
 
 interface Projeto {
   id: string;
   titulo: string;
   descricao: string;
   imagem: string;
+  categoria: string;
   github?: string;
   demo?: string;
 }
@@ -17,15 +18,17 @@ const PROJETOS: Projeto[] = [
   {
     id: '1',
     titulo: 'Golden Pets',
-    descricao: 'E-commerce completo para pet shop com catálogo de produtos, carrinho de compras e sistema de rastreamento de pedidos.',
+    descricao: 'E-commerce completo para pet shop com catálogo de produtos, carrinho de compras e sistema de rastreamento.',
     imagem: '/images/golden-pets.png',
+    categoria: 'E-Commerce',
     demo: '#',
   },
   {
     id: '2',
-    titulo: 'Task Management App',
-    descricao: 'Aplicativo de gerenciamento de tarefas com funcionalidades de drag-and-drop, colaboração em tempo real.',
+    titulo: 'Task Management',
+    descricao: 'Aplicativo de gerenciamento de tarefas com drag-and-drop e colaboração em tempo real.',
     imagem: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=600&fit=crop',
+    categoria: 'Aplicativo Web',
     github: '#',
     demo: '#',
   },
@@ -34,14 +37,16 @@ const PROJETOS: Projeto[] = [
     titulo: 'Portfolio Dashboard',
     descricao: 'Dashboard interativo para visualização de dados financeiros e análise de investimentos.',
     imagem: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop',
+    categoria: 'Dashboard',
     github: '#',
     demo: '#',
   },
   {
     id: '4',
-    titulo: 'Social Media Clone',
-    descricao: 'Clone de rede social com feed em tempo real, stories, mensagens diretas e notificações push.',
+    titulo: 'Social Connect',
+    descricao: 'Rede social com feed em tempo real, stories, mensagens diretas e notificações push.',
     imagem: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=600&fit=crop',
+    categoria: 'Rede Social',
     github: '#',
   },
 ];
@@ -49,7 +54,9 @@ const PROJETOS: Projeto[] = [
 export function Projetos() {
   const [isVisible, setIsVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -62,246 +69,220 @@ export function Projetos() {
   }, []);
 
   const nextProject = () => {
-    setDirection(1);
-    setCurrentIndex((prev) => (prev + 1) % PROJETOS.length);
+    if (currentIndex < PROJETOS.length - 1) {
+      setCurrentIndex(prev => prev + 1);
+    }
   };
 
   const prevProject = () => {
-    setDirection(-1);
-    setCurrentIndex((prev) => (prev - 1 + PROJETOS.length) % PROJETOS.length);
+    if (currentIndex > 0) {
+      setCurrentIndex(prev => prev - 1);
+    }
   };
 
-  const getProjectAtOffset = (offset: number) => {
-    const index = (currentIndex + offset + PROJETOS.length) % PROJETOS.length;
-    return PROJETOS[index];
-  };
-
-  const projeto = PROJETOS[currentIndex];
-
-  const slideVariants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 200 : -200,
-      opacity: 0,
-      scale: 0.95,
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
-      scale: 1,
-    },
-    exit: (direction: number) => ({
-      x: direction < 0 ? 200 : -200,
-      opacity: 0,
-      scale: 0.95,
-    }),
+  const goToProject = (index: number) => {
+    setCurrentIndex(index);
   };
 
   return (
-    <section id="projetos" className="relative py-32">
+    <section id="projetos" className="relative py-32 overflow-hidden">
       <div className="container mx-auto px-6">
 
-        {/* Header */}
+        {/* Header with navigation */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isVisible ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="text-center mb-16 max-w-2xl mx-auto"
+          className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12"
         >
-          <h2 className="text-4xl sm:text-5xl font-black text-foreground mb-6 text-balance">
-            Projetos
-          </h2>
-          <p className="text-muted-foreground text-lg">
-            Uma seleção dos meus trabalhos mais recentes. Cada projeto representa um desafio único resolvido com dedicação e criatividade.
-          </p>
+          <div>
+            <h2 className="text-4xl sm:text-5xl font-black text-foreground mb-4">
+              Projetos
+            </h2>
+            <p className="text-muted-foreground text-lg max-w-md">
+              Trabalhos selecionados que demonstram nossa experiência e dedicação.
+            </p>
+          </div>
+
+          {/* Navigation */}
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-muted-foreground font-medium">
+              {String(currentIndex + 1).padStart(2, '0')} / {String(PROJETOS.length).padStart(2, '0')}
+            </span>
+            <div className="flex gap-2">
+              <motion.button
+                onClick={prevProject}
+                disabled={currentIndex === 0}
+                whileHover={{ scale: currentIndex === 0 ? 1 : 1.05 }}
+                whileTap={{ scale: currentIndex === 0 ? 1 : 0.95 }}
+                className={`p-3 rounded-full border transition-all duration-300 ${
+                  currentIndex === 0 
+                    ? 'border-border/30 text-muted-foreground/30 cursor-not-allowed' 
+                    : 'border-border hover:border-foreground hover:bg-foreground hover:text-background'
+                }`}
+                aria-label="Projeto anterior"
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </motion.button>
+              <motion.button
+                onClick={nextProject}
+                disabled={currentIndex === PROJETOS.length - 1}
+                whileHover={{ scale: currentIndex === PROJETOS.length - 1 ? 1 : 1.05 }}
+                whileTap={{ scale: currentIndex === PROJETOS.length - 1 ? 1 : 0.95 }}
+                className={`p-3 rounded-full border transition-all duration-300 ${
+                  currentIndex === PROJETOS.length - 1 
+                    ? 'border-border/30 text-muted-foreground/30 cursor-not-allowed' 
+                    : 'border-border hover:border-foreground hover:bg-foreground hover:text-background'
+                }`}
+                aria-label="Próximo projeto"
+              >
+                <ArrowRight className="w-5 h-5" />
+              </motion.button>
+            </div>
+          </div>
         </motion.div>
 
-        {/* Carousel - Stacked Style */}
-        <div className="relative max-w-6xl mx-auto">
-          <div className="flex items-center justify-center">
-            
-            {/* Far Left Preview (2 positions back) */}
-            <motion.div
-              initial={{ opacity: 0, x: -100 }}
-              animate={isVisible ? { opacity: 0.4, x: 0 } : {}}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              onClick={prevProject}
-              className="hidden lg:block w-16 h-64 rounded-2xl overflow-hidden cursor-pointer hover:opacity-60 transition-all duration-500 flex-shrink-0 -mr-2 z-0"
-            >
-              <img
-                src={getProjectAtOffset(-2).imagem}
-                alt=""
-                className="w-full h-full object-cover"
-              />
-            </motion.div>
+        {/* Cards Grid Carousel */}
+        <div ref={containerRef} className="relative">
+          <motion.div
+            className="flex gap-6"
+            animate={{ x: -currentIndex * (100 / 3) + '%' }}
+            transition={{ 
+              type: "spring",
+              stiffness: 300,
+              damping: 30,
+              mass: 1
+            }}
+            style={{ 
+              width: `${(PROJETOS.length / 3) * 100}%`,
+            }}
+          >
+            {PROJETOS.map((projeto, index) => {
+              const isActive = index === currentIndex;
+              const isPrev = index === currentIndex - 1;
+              const isNext = index === currentIndex + 1;
+              const isVisible = Math.abs(index - currentIndex) <= 2;
 
-            {/* Left Preview (1 position back) */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={isVisible ? { opacity: 0.6, x: 0 } : {}}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              onClick={prevProject}
-              className="hidden md:block w-20 lg:w-24 h-72 lg:h-80 rounded-2xl overflow-hidden cursor-pointer hover:opacity-80 transition-all duration-500 flex-shrink-0 -mr-3 z-10"
-            >
-              <img
-                src={getProjectAtOffset(-1).imagem}
-                alt=""
-                className="w-full h-full object-cover"
-              />
-            </motion.div>
-
-            {/* Main Project Card */}
-            <div className="flex-shrink-0 w-full max-w-2xl z-20 px-4 md:px-0">
-              <AnimatePresence mode="wait" custom={direction}>
+              return (
                 <motion.article
                   key={projeto.id}
-                  custom={direction}
-                  variants={slideVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{ 
-                    type: "spring",
-                    stiffness: 400,
-                    damping: 35,
-                    mass: 0.8
+                  onClick={() => goToProject(index)}
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ 
+                    opacity: isVisible ? (isActive ? 1 : 0.5) : 0,
+                    y: isVisible ? 0 : 40,
+                    scale: isActive ? 1 : 0.95,
                   }}
-                  className="group relative rounded-3xl overflow-hidden"
+                  transition={{ 
+                    duration: 0.5,
+                    ease: [0.22, 1, 0.36, 1]
+                  }}
+                  className={`flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 cursor-pointer group`}
                 >
-                  {/* Image */}
-                  <div className="relative overflow-hidden h-72 sm:h-96 rounded-3xl">
-                    <motion.img
-                      src={projeto.imagem}
-                      alt={projeto.titulo}
-                      className="w-full h-full object-cover"
-                      initial={{ scale: 1.05 }}
-                      animate={{ scale: 1 }}
-                      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                    />
-                    
-                    {/* Gradient overlay at bottom */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                    
-                    {/* Floating action buttons */}
-                    <div className="absolute top-4 right-4 flex gap-2">
-                      {projeto.github && (
-                        <motion.a
-                          href={projeto.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="p-2.5 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/30 transition-colors"
-                        >
-                          <Github className="w-4 h-4" />
-                        </motion.a>
-                      )}
-                      {projeto.demo && (
-                        <motion.a
-                          href={projeto.demo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="p-2.5 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/30 transition-colors"
-                        >
-                          <ExternalLink className="w-4 h-4" />
-                        </motion.a>
-                      )}
+                  <div className={`relative rounded-2xl overflow-hidden transition-all duration-500 ${
+                    isActive ? 'ring-2 ring-primary/50' : ''
+                  }`}>
+                    {/* Image Container */}
+                    <div className="relative aspect-[4/3] overflow-hidden bg-card">
+                      <motion.img
+                        src={projeto.imagem}
+                        alt={projeto.titulo}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      
+                      {/* Hover Overlay */}
+                      <div className={`absolute inset-0 bg-black/60 flex items-center justify-center gap-4 transition-opacity duration-300 ${
+                        isActive ? 'opacity-0 group-hover:opacity-100' : 'opacity-0'
+                      }`}>
+                        {projeto.demo && (
+                          <motion.a
+                            href={projeto.demo}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="p-4 rounded-full bg-white text-black hover:bg-primary hover:text-white transition-colors"
+                          >
+                            <ExternalLink className="w-5 h-5" />
+                          </motion.a>
+                        )}
+                        {projeto.github && (
+                          <motion.a
+                            href={projeto.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="p-4 rounded-full bg-white text-black hover:bg-primary hover:text-white transition-colors"
+                          >
+                            <Github className="w-5 h-5" />
+                          </motion.a>
+                        )}
+                      </div>
+
+                      {/* Category Badge */}
+                      <div className="absolute top-4 left-4">
+                        <span className="px-3 py-1.5 text-xs font-semibold uppercase tracking-wider bg-white/90 backdrop-blur-sm text-black rounded-full">
+                          {projeto.categoria}
+                        </span>
+                      </div>
                     </div>
 
-                    {/* Content overlay at bottom */}
-                    <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
-                      <div className="flex items-start justify-between gap-4 mb-2">
-                        <h3 className="text-2xl sm:text-3xl font-bold text-white">
-                          {projeto.titulo}
-                        </h3>
-                        <ArrowUpRight className="w-5 h-5 text-white/70 group-hover:text-white transition-colors flex-shrink-0" />
-                      </div>
-                      
-                      <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-lg">
+                    {/* Content */}
+                    <div className="p-6 bg-card border-x border-b border-border/50 rounded-b-2xl">
+                      <h3 className={`text-xl font-bold mb-2 transition-colors duration-300 ${
+                        isActive ? 'text-foreground' : 'text-muted-foreground'
+                      }`}>
+                        {projeto.titulo}
+                      </h3>
+                      <p className={`text-sm leading-relaxed line-clamp-2 transition-colors duration-300 ${
+                        isActive ? 'text-muted-foreground' : 'text-muted-foreground/60'
+                      }`}>
                         {projeto.descricao}
                       </p>
                     </div>
                   </div>
                 </motion.article>
-              </AnimatePresence>
-            </div>
+              );
+            })}
+          </motion.div>
+        </div>
 
-            {/* Right Preview (1 position forward) */}
+        {/* Progress Bar */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isVisible ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mt-12 max-w-md mx-auto"
+        >
+          <div className="h-0.5 bg-border/30 rounded-full overflow-hidden">
             <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={isVisible ? { opacity: 0.6, x: 0 } : {}}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              onClick={nextProject}
-              className="hidden md:block w-20 lg:w-24 h-72 lg:h-80 rounded-2xl overflow-hidden cursor-pointer hover:opacity-80 transition-all duration-500 flex-shrink-0 -ml-3 z-10"
-            >
-              <img
-                src={getProjectAtOffset(1).imagem}
-                alt=""
-                className="w-full h-full object-cover"
-              />
-            </motion.div>
-
-            {/* Far Right Preview (2 positions forward) */}
-            <motion.div
-              initial={{ opacity: 0, x: 100 }}
-              animate={isVisible ? { opacity: 0.4, x: 0 } : {}}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              onClick={nextProject}
-              className="hidden lg:block w-16 h-64 rounded-2xl overflow-hidden cursor-pointer hover:opacity-60 transition-all duration-500 flex-shrink-0 -ml-2 z-0"
-            >
-              <img
-                src={getProjectAtOffset(2).imagem}
-                alt=""
-                className="w-full h-full object-cover"
-              />
-            </motion.div>
-
+              className="h-full bg-foreground"
+              initial={{ width: '0%' }}
+              animate={{ width: `${((currentIndex + 1) / PROJETOS.length) * 100}%` }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            />
           </div>
+        </motion.div>
 
-          {/* Navigation Arrows */}
-          <div className="flex justify-center gap-4 mt-8">
+        {/* Dots Navigation */}
+        <div className="flex justify-center gap-2 mt-6">
+          {PROJETOS.map((_, index) => (
             <motion.button
-              onClick={prevProject}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="p-3 rounded-full border border-border/50 bg-card/60 backdrop-blur-md text-foreground hover:border-primary/50 hover:text-primary hover:bg-card/80 transition-all duration-300"
-              aria-label="Projeto anterior"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </motion.button>
-            
-            {/* Dots Indicator */}
-            <div className="flex items-center gap-2">
-              {PROJETOS.map((_, index) => (
-                <motion.button
-                  key={index}
-                  onClick={() => {
-                    setDirection(index > currentIndex ? 1 : -1);
-                    setCurrentIndex(index);
-                  }}
-                  whileHover={{ scale: 1.2 }}
-                  whileTap={{ scale: 0.9 }}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    index === currentIndex 
-                      ? 'bg-primary w-6' 
-                      : 'bg-border hover:bg-primary/50 w-2'
-                  }`}
-                  aria-label={`Ir para projeto ${index + 1}`}
-                />
-              ))}
-            </div>
-
-            <motion.button
-              onClick={nextProject}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="p-3 rounded-full border border-border/50 bg-card/60 backdrop-blur-md text-foreground hover:border-primary/50 hover:text-primary hover:bg-card/80 transition-all duration-300"
-              aria-label="Próximo projeto"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </motion.button>
-          </div>
+              key={index}
+              onClick={() => goToProject(index)}
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                index === currentIndex 
+                  ? 'bg-foreground w-8' 
+                  : 'bg-border hover:bg-muted-foreground'
+              }`}
+              aria-label={`Ir para projeto ${index + 1}`}
+            />
+          ))}
         </div>
 
         {/* View all projects CTA */}
@@ -309,7 +290,7 @@ export function Projetos() {
           initial={{ opacity: 0, y: 20 }}
           animate={isVisible ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.6 }}
-          className="text-center mt-12"
+          className="text-center mt-16"
         >
           <motion.a
             href="https://github.com/Viganop"
@@ -317,11 +298,11 @@ export function Projetos() {
             rel="noopener noreferrer"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-border/50 text-foreground hover:border-primary/50 hover:text-primary transition-all group"
+            className="inline-flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors group"
           >
             <Github className="w-5 h-5" />
-            <span className="font-medium">Ver todos no GitHub</span>
-            <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            <span className="font-medium">Ver todos os projetos no GitHub</span>
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </motion.a>
         </motion.div>
 
