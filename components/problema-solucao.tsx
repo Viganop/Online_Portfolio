@@ -16,6 +16,7 @@ import {
   ArrowUpRight,
   BarChart3
 } from 'lucide-react';
+import CountUp from '@/components/ui/count-up';
 
 const SERVICOS = [
   {
@@ -168,7 +169,9 @@ export function ProblemaSolucao() {
                       <TrendingUp className="w-5 h-5 text-white/60" />
                     </div>
                     <p className="text-white/40 text-sm mb-1">Aumento de Vendas</p>
-                    <p className="text-3xl font-black text-white">300%</p>
+                    <p className="text-3xl font-black text-white">
+                      <CountUp from={0} to={300} duration={2} delay={0.3} suffix="%" />
+                    </p>
                   </div>
                   <p className="text-white/30 text-xs max-w-[80px] text-right">em 6 meses</p>
                 </div>
@@ -187,7 +190,9 @@ export function ProblemaSolucao() {
                       <Users className="w-5 h-5 text-white/60" />
                     </div>
                     <p className="text-white/40 text-sm mb-1">Novos Clientes</p>
-                    <p className="text-3xl font-black text-white">150+</p>
+                    <p className="text-3xl font-black text-white">
+                      <CountUp from={0} to={150} duration={2} delay={0.5} suffix="+" />
+                    </p>
                   </div>
                   <p className="text-white/30 text-xs max-w-[80px] text-right">leads / mês</p>
                 </div>
@@ -207,7 +212,9 @@ export function ProblemaSolucao() {
                     </div>
                     <div>
                       <p className="text-white/40 text-sm mb-1">ROI Garantido</p>
-                      <p className="text-3xl font-black text-white">100%</p>
+                      <p className="text-3xl font-black text-white">
+                        <CountUp from={0} to={100} duration={2} delay={0.7} suffix="%" />
+                      </p>
                     </div>
                   </div>
                   <p className="text-white/30 text-sm">Retorno comprovado</p>
