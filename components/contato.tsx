@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Mail, Github, Linkedin, MessageCircle, ArrowUpRight } from 'lucide-react';
-import BorderGlow from '@/components/ui/border-glow';
 
 const SOCIAL_LINKS = [
   { 
@@ -51,10 +50,10 @@ export function Contato() {
             transition={{ duration: 0.5 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl sm:text-5xl font-black text-foreground mb-6 text-balance">
+            <h2 className="text-4xl sm:text-5xl font-black text-white mb-6 text-balance">
               Vamos conversar?
             </h2>
-            <p className="text-muted-foreground text-lg max-w-xl mx-auto">
+            <p className="text-white/50 text-lg max-w-xl mx-auto">
               Estou sempre aberto a novas oportunidades, projetos interessantes ou simplesmente uma boa conversa sobre tecnologia.
             </p>
           </motion.div>
@@ -79,58 +78,53 @@ export function Contato() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={isVisible ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.3, delay: 0.2 + index * 0.1 }}
-                  className="flex items-center justify-between p-4 rounded-xl border border-border/30 bg-card/20 backdrop-blur-sm hover:border-primary/30 hover:bg-card/40 transition-all group"
+                  className="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.05] hover:border-white/20 transition-all group"
                 >
                   <div className="flex items-center gap-3">
-                    <link.icon className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                    <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+                      <link.icon className="w-5 h-5 text-white/60 group-hover:text-white transition-colors" />
+                    </div>
                     <div>
-                      <p className="font-medium text-foreground group-hover:text-primary transition-colors">{link.nome}</p>
-                      <p className="text-xs text-muted-foreground">{link.usuario}</p>
+                      <p className="font-medium text-white/90 group-hover:text-white transition-colors">{link.nome}</p>
+                      <p className="text-xs text-white/40">{link.usuario}</p>
                     </div>
                   </div>
-                  <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <ArrowUpRight className="w-4 h-4 text-white/30 group-hover:text-white/60 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </motion.a>
               ))}
 
-              {/* Disponível para novos projetos - estilo navbar */}
+              {/* Disponível para novos projetos - estilo glass */}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.3, delay: 0.5 }}
-                className="flex items-center gap-3 rounded-full border border-white/10 bg-background/40 backdrop-blur-md px-4 py-3"
+                className="flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.02] backdrop-blur-xl px-5 py-3"
               >
-                <span className="relative flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500" />
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-50" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white" />
                 </span>
-                <span className="text-sm font-medium text-foreground">Disponível para novos projetos</span>
+                <span className="text-sm font-medium text-white/70">Disponível para novos projetos</span>
               </motion.div>
             </motion.div>
 
-            {/* Right - CTA Card with BorderGlow */}
+            {/* Right - CTA Card Glass Style */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={isVisible ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.2 }}
               className="lg:col-span-3"
             >
-              <BorderGlow
-                edgeSensitivity={7}
-                glowColor="40 80 80"
-                backgroundColor="oklch(0.12 0.02 250)"
-                borderRadius={24}
-                glowRadius={52}
-                glowIntensity={1.4}
-                coneSpread={25}
-                animationLoop
-                colors={['#c084fc', '#f472b6', '#38bdf8']}
-                className="h-full"
-              >
-                <div className="p-8 sm:p-12 flex flex-col items-center justify-center text-center h-full">
+              <div className="relative rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl overflow-hidden">
+                {/* Subtle glow effect */}
+                <div className="absolute -top-24 -right-24 w-48 h-48 bg-white/5 rounded-full blur-3xl" />
+                <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-white/5 rounded-full blur-3xl" />
+                
+                <div className="relative p-8 sm:p-12 flex flex-col items-center justify-center text-center h-full">
                   <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4 text-balance">
                     Bora bater um papo?
                   </h3>
-                  <p className="text-white/70 mb-8 leading-relaxed max-w-md">
+                  <p className="text-white/50 mb-8 leading-relaxed max-w-md">
                     Estou sempre em busca de desafios interessantes. Se você tem uma ideia que precisa ganhar vida, vamos conversar sobre como posso ajudar a transformá-la em realidade.
                   </p>
 
@@ -138,13 +132,13 @@ export function Contato() {
                     href="https://wa.me/5516999999999?text=Olá! Vi seu portfólio e gostaria de conversar."
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-all hover:scale-[1.02] shadow-lg shadow-primary/20 group"
+                    className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black font-semibold hover:bg-white/90 transition-all hover:scale-[1.02] group"
                   >
                     <MessageCircle className="w-5 h-5" />
                     Chamar no Whatsapp
                   </a>
                 </div>
-              </BorderGlow>
+              </div>
             </motion.div>
 
           </div>

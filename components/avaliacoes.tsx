@@ -67,7 +67,7 @@ export function Avaliacoes() {
   }, []);
 
   return (
-    <section id="avaliacoes" className="relative py-32 bg-card/30">
+    <section id="avaliacoes" className="relative py-32">
       <div className="container mx-auto px-6">
 
         {/* Header */}
@@ -77,10 +77,10 @@ export function Avaliacoes() {
           transition={{ duration: 0.5 }}
           className="text-center mb-16 max-w-2xl mx-auto"
         >
-          <h2 className="text-4xl sm:text-5xl font-black text-foreground mb-6 text-balance">
+          <h2 className="text-4xl sm:text-5xl font-black text-white mb-6 text-balance">
             O que nossos clientes dizem
           </h2>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-white/50 text-lg">
             A satisfação dos nossos clientes é o nosso maior orgulho. Confira alguns depoimentos de quem já transformou seu negócio.
           </p>
         </motion.div>
@@ -93,22 +93,22 @@ export function Avaliacoes() {
               initial={{ opacity: 0, y: 30 }}
               animate={isVisible ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
-              className="group relative p-6 rounded-2xl border border-border/30 bg-background/50 backdrop-blur-sm hover:border-primary/30 transition-all duration-300"
+              className="group relative p-6 rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] hover:border-white/20 transition-all duration-300"
             >
               {/* Quote Icon */}
               <div className="absolute top-4 right-4">
-                <Quote className="w-8 h-8 text-primary/20" />
+                <Quote className="w-8 h-8 text-white/10" />
               </div>
 
               {/* Stars */}
               <div className="flex gap-1 mb-4">
                 {[...Array(avaliacao.estrelas)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-primary text-primary" />
+                  <Star key={i} className="w-4 h-4 fill-white/80 text-white/80" />
                 ))}
               </div>
 
               {/* Review Text */}
-              <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+              <p className="text-white/60 text-sm leading-relaxed mb-6">
                 &ldquo;{avaliacao.texto}&rdquo;
               </p>
 
@@ -117,13 +117,13 @@ export function Avaliacoes() {
                 <img
                   src={avaliacao.foto}
                   alt={avaliacao.nome}
-                  className="w-12 h-12 rounded-full object-cover border-2 border-border/50"
+                  className="w-12 h-12 rounded-full object-cover border-2 border-white/10 grayscale"
                 />
                 <div>
-                  <h4 className="font-semibold text-foreground text-sm">
+                  <h4 className="font-semibold text-white/90 text-sm">
                     {avaliacao.nome}
                   </h4>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-white/40">
                     {avaliacao.cargo}, {avaliacao.empresa}
                   </p>
                 </div>
