@@ -49,21 +49,27 @@ export function Navbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 grid grid-cols-3 items-center pt-8 px-10">
 
-      {/* Col 1 — Logo */}
+      {/* Col 1 — Logo com efeito de vidro */}
       <motion.div
         initial={{ opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
         className="flex items-center gap-3"
       >
-        <Image
-          src="/images/titan-labs-logo.png"
-          alt="Titan Labs Logo"
-          width={40}
-          height={40}
-          className="rounded-xl"
-        />
-        <span className="text-lg font-bold text-foreground tracking-tight">Titan Labs</span>
+        <div className={`flex items-center gap-3 rounded-full border border-white/10 px-3 py-2 transition-all duration-300 ${
+          scrolled
+            ? 'bg-background/60 backdrop-blur-xl shadow-lg shadow-black/20'
+            : 'bg-background/40 backdrop-blur-md'
+        }`}>
+          <Image
+            src="/images/titan-labs-logo.png"
+            alt="Titan Labs Logo"
+            width={32}
+            height={32}
+            className="rounded-lg"
+          />
+          <span className="text-sm font-bold text-foreground tracking-tight pr-1">Titan Labs</span>
+        </div>
       </motion.div>
 
       {/* Col 2 — pill nav, truly centered */}
@@ -98,22 +104,13 @@ export function Navbar() {
         </motion.nav>
       </div>
 
-      {/* Col 3 — Language + Settings, aligned left within column */}
+      {/* Col 3 — Language + Settings, aligned right */}
       <motion.div
         initial={{ opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
-        className="flex items-center gap-2 justify-start pl-6"
+        className="flex items-center gap-2 justify-end"
       >
-        {/* Language */}
-        <button
-          onClick={() => setLang(l => l === 'PT' ? 'EN' : 'PT')}
-          className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-background/40 backdrop-blur-md px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-all"
-        >
-          <Globe className="w-4 h-4" />
-          {lang}
-        </button>
-
         {/* Settings */}
         <div ref={settingsRef} className="relative">
           <button
@@ -179,6 +176,19 @@ export function Navbar() {
             )}
           </AnimatePresence>
         </div>
+
+        {/* Language */}
+        <button
+          onClick={() => setLang(l => l === 'PT' ? 'EN' : 'PT')}
+          className={`inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-300 ${
+            scrolled
+              ? 'bg-background/60 backdrop-blur-xl shadow-lg shadow-black/20'
+              : 'bg-background/40 backdrop-blur-md'
+          }`}
+        >
+          <Globe className="w-4 h-4" />
+          {lang}
+        </button>
       </motion.div>
 
       {/* Mobile dropdown */}
