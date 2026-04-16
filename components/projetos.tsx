@@ -17,11 +17,10 @@ interface Projeto {
 const PROJETOS: Projeto[] = [
   {
     id: '1',
-    titulo: 'E-commerce Platform',
-    descricao: 'Plataforma completa de e-commerce com carrinho de compras, pagamentos integrados e dashboard administrativo.',
-    imagem: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop',
+    titulo: 'Golden Pets',
+    descricao: 'E-commerce completo para pet shop com catálogo de produtos, carrinho de compras e sistema de rastreamento de pedidos.',
+    imagem: '/images/golden-pets.png',
     tags: ['Next.js', 'TypeScript', 'Stripe', 'PostgreSQL'],
-    github: '#',
     demo: '#',
   },
   {
@@ -75,6 +74,8 @@ export function Projetos() {
   };
 
   const projeto = PROJETOS[currentIndex];
+  const prevProjeto = PROJETOS[(currentIndex - 1 + PROJETOS.length) % PROJETOS.length];
+  const nextProjeto = PROJETOS[(currentIndex + 1) % PROJETOS.length];
 
   return (
     <section id="projetos" className="relative py-32">
@@ -87,14 +88,6 @@ export function Projetos() {
           transition={{ duration: 0.5 }}
           className="text-center mb-16 max-w-2xl mx-auto"
         >
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="h-px w-12 bg-primary" />
-            <span className="text-xs font-semibold tracking-[0.25em] text-primary uppercase">
-              Portfólio
-            </span>
-            <div className="h-px w-12 bg-primary" />
-          </div>
-
           <h2 className="text-4xl sm:text-5xl font-black text-foreground mb-6 text-balance">
             Projetos
           </h2>
@@ -103,96 +96,135 @@ export function Projetos() {
           </p>
         </motion.div>
 
-        {/* Carousel */}
-        <div className="relative max-w-4xl mx-auto">
-          {/* Navigation Arrows */}
-          <button
-            onClick={prevProject}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-16 z-10 p-3 rounded-full border border-border/50 bg-background/80 backdrop-blur-sm text-foreground hover:border-primary/50 hover:text-primary transition-all"
-            aria-label="Projeto anterior"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-          
-          <button
-            onClick={nextProject}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-16 z-10 p-3 rounded-full border border-border/50 bg-background/80 backdrop-blur-sm text-foreground hover:border-primary/50 hover:text-primary transition-all"
-            aria-label="Próximo projeto"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
-
-          {/* Project Card */}
-          <AnimatePresence mode="wait">
-            <motion.article
-              key={projeto.id}
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -50 }}
-              transition={{ duration: 0.3 }}
-              className="group relative rounded-2xl border border-border/30 bg-card/30 backdrop-blur-sm overflow-hidden"
+        {/* Carousel with Side Previews */}
+        <div className="relative max-w-7xl mx-auto">
+          <div className="flex items-center justify-center gap-4 lg:gap-8">
+            
+            {/* Left Preview Card */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={isVisible ? { opacity: 0.5, x: 0 } : {}}
+              transition={{ duration: 0.5 }}
+              onClick={prevProject}
+              className="hidden md:block w-24 lg:w-32 h-64 lg:h-80 rounded-xl border border-border/20 bg-card/20 backdrop-blur-sm overflow-hidden cursor-pointer hover:opacity-70 transition-opacity flex-shrink-0"
             >
-              {/* Image */}
-              <div className="relative overflow-hidden h-72 sm:h-96">
-                <img
-                  src={projeto.imagem}
-                  alt={projeto.titulo}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
-                
-                {/* Floating action buttons */}
-                <div className="absolute top-4 right-4 flex gap-2">
-                  {projeto.github && (
-                    <a
-                      href={projeto.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-2.5 rounded-full bg-background/80 backdrop-blur-sm border border-border/50 text-foreground hover:text-primary hover:border-primary/50 transition-colors"
-                    >
-                      <Github className="w-4 h-4" />
-                    </a>
-                  )}
-                  {projeto.demo && (
-                    <a
-                      href={projeto.demo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-2.5 rounded-full bg-background/80 backdrop-blur-sm border border-border/50 text-foreground hover:text-primary hover:border-primary/50 transition-colors"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                    </a>
-                  )}
-                </div>
-              </div>
+              <img
+                src={prevProjeto.imagem}
+                alt={prevProjeto.titulo}
+                className="w-full h-full object-cover opacity-60"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
+            </motion.div>
 
-              {/* Content */}
-              <div className="p-6 sm:p-8">
-                <div className="flex items-start justify-between gap-4 mb-3">
-                  <h3 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
-                    {projeto.titulo}
-                  </h3>
-                  <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0" />
-                </div>
-                
-                <p className="text-muted-foreground text-base leading-relaxed mb-6">
-                  {projeto.descricao}
-                </p>
+            {/* Navigation Arrow Left */}
+            <button
+              onClick={prevProject}
+              className="z-10 p-3 rounded-full border border-border/50 bg-background/80 backdrop-blur-sm text-foreground hover:border-primary/50 hover:text-primary transition-all flex-shrink-0"
+              aria-label="Projeto anterior"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
 
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2">
-                  {projeto.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-3 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary border border-primary/20"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </motion.article>
-          </AnimatePresence>
+            {/* Main Project Card */}
+            <div className="flex-1 max-w-3xl">
+              <AnimatePresence mode="wait">
+                <motion.article
+                  key={projeto.id}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.3 }}
+                  className="group relative rounded-2xl border border-border/30 bg-card/30 backdrop-blur-sm overflow-hidden"
+                >
+                  {/* Image */}
+                  <div className="relative overflow-hidden h-72 sm:h-96">
+                    <img
+                      src={projeto.imagem}
+                      alt={projeto.titulo}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
+                    
+                    {/* Floating action buttons */}
+                    <div className="absolute top-4 right-4 flex gap-2">
+                      {projeto.github && (
+                        <a
+                          href={projeto.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2.5 rounded-full bg-background/80 backdrop-blur-sm border border-border/50 text-foreground hover:text-primary hover:border-primary/50 transition-colors"
+                        >
+                          <Github className="w-4 h-4" />
+                        </a>
+                      )}
+                      {projeto.demo && (
+                        <a
+                          href={projeto.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2.5 rounded-full bg-background/80 backdrop-blur-sm border border-border/50 text-foreground hover:text-primary hover:border-primary/50 transition-colors"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-6 sm:p-8">
+                    <div className="flex items-start justify-between gap-4 mb-3">
+                      <h3 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
+                        {projeto.titulo}
+                      </h3>
+                      <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0" />
+                    </div>
+                    
+                    <p className="text-muted-foreground text-base leading-relaxed mb-6">
+                      {projeto.descricao}
+                    </p>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2">
+                      {projeto.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-3 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary border border-primary/20"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </motion.article>
+              </AnimatePresence>
+            </div>
+
+            {/* Navigation Arrow Right */}
+            <button
+              onClick={nextProject}
+              className="z-10 p-3 rounded-full border border-border/50 bg-background/80 backdrop-blur-sm text-foreground hover:border-primary/50 hover:text-primary transition-all flex-shrink-0"
+              aria-label="Próximo projeto"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+
+            {/* Right Preview Card */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={isVisible ? { opacity: 0.5, x: 0 } : {}}
+              transition={{ duration: 0.5 }}
+              onClick={nextProject}
+              className="hidden md:block w-24 lg:w-32 h-64 lg:h-80 rounded-xl border border-border/20 bg-card/20 backdrop-blur-sm overflow-hidden cursor-pointer hover:opacity-70 transition-opacity flex-shrink-0"
+            >
+              <img
+                src={nextProjeto.imagem}
+                alt={nextProjeto.titulo}
+                className="w-full h-full object-cover opacity-60"
+              />
+              <div className="absolute inset-0 bg-gradient-to-l from-background via-background/80 to-transparent" />
+            </motion.div>
+
+          </div>
 
           {/* Dots Indicator */}
           <div className="flex justify-center gap-2 mt-8">

@@ -125,7 +125,7 @@ export function ProblemaSolucao() {
           initial={{ opacity: 0, y: 30 }}
           animate={isVisible ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="max-w-7xl mx-auto"
+          className="max-w-7xl mx-auto mt-32"
         >
           {/* Título Centralizado */}
           <div className="text-center mb-16">
