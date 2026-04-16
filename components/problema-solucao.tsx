@@ -291,29 +291,44 @@ export function ProblemaSolucao() {
             </motion.p>
           </div>
 
-          {/* Grid de Serviços - Silver Premium */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* Grid de Serviços - Silver Premium Melhorado */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {SERVICOS.map((servico, index) => (
               <motion.div
                 key={servico.titulo}
                 initial={{ opacity: 0, y: 20 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                className="group relative p-6 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl overflow-hidden hover:border-white/20 transition-all duration-500 cursor-pointer"
+                className="group relative rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl overflow-hidden hover:border-white/20 hover:bg-white/[0.04] transition-all duration-500 cursor-pointer"
               >
-                {/* Hover glow */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                {/* Top accent line */}
+                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
-                <div className="relative z-10">
-                  <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-5 group-hover:bg-white/10 group-hover:border-white/20 transition-all duration-300">
-                    <servico.icon className="w-7 h-7 text-white/60 group-hover:text-white/80 transition-colors" />
+                {/* Hover glow */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.06] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <div className="relative z-10 p-7">
+                  {/* Icon with subtle ring on hover */}
+                  <div className="relative mb-6">
+                    <div className="w-14 h-14 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center group-hover:bg-white/[0.08] group-hover:border-white/20 transition-all duration-300">
+                      <servico.icon className="w-6 h-6 text-white/50 group-hover:text-white/80 transition-colors duration-300" />
+                    </div>
+                    {/* Glow behind icon on hover */}
+                    <div className="absolute inset-0 w-14 h-14 rounded-2xl bg-white/20 blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-500" />
                   </div>
-                  <h3 className="text-lg font-semibold text-white/90 mb-2 group-hover:text-white transition-colors">
+                  
+                  <h3 className="text-lg font-semibold text-white/90 mb-3 group-hover:text-white transition-colors duration-300">
                     {servico.titulo}
                   </h3>
-                  <p className="text-white/40 text-sm leading-relaxed group-hover:text-white/50 transition-colors">
+                  <p className="text-white/40 text-sm leading-relaxed group-hover:text-white/55 transition-colors duration-300">
                     {servico.descricao}
                   </p>
+                  
+                  {/* Arrow indicator */}
+                  <div className="mt-5 flex items-center gap-2 text-white/30 group-hover:text-white/60 transition-all duration-300">
+                    <span className="text-xs font-medium">Saiba mais</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+                  </div>
                 </div>
               </motion.div>
             ))}

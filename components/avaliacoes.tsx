@@ -117,7 +117,7 @@ export function Avaliacoes() {
                 <img
                   src={avaliacao.foto}
                   alt={avaliacao.nome}
-                  className="w-12 h-12 rounded-full object-cover border-2 border-white/10 grayscale"
+                  className="w-12 h-12 rounded-full object-cover border-2 border-white/10"
                 />
                 <div>
                   <h4 className="font-semibold text-white/90 text-sm">

@@ -90,13 +90,13 @@ export function Navbar() {
       >
         <a
           href="#contato"
-          className={`inline-flex items-center rounded-full border border-white/10 px-5 py-2.5 text-sm font-medium text-foreground hover:bg-white/10 transition-all duration-300 ${
+          className={`inline-flex items-center rounded-full border border-white/10 px-5 py-2.5 transition-all duration-300 ${
             scrolled
               ? 'bg-background/60 backdrop-blur-xl shadow-lg shadow-black/20'
               : 'bg-background/40 backdrop-blur-md'
           }`}
         >
-          Fale Conosco
+          <span className="text-sm font-bold text-foreground tracking-tight">Fale Conosco</span>
         </a>
       </motion.div>
 
