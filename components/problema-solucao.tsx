@@ -328,12 +328,11 @@ export function ProblemaSolucao() {
                   <h3 className="text-lg font-semibold mb-3">
                     <ShinyText
                       text={servico.titulo}
-                      color="rgba(255,255,255,0.9)"
+                      color="rgba(255,255,255,0.6)"
                       shineColor="#ffffff"
-                      speed={3}
-                      delay={1}
-                      spread={120}
-                      className="group-hover:opacity-100"
+                      speed={2}
+                      delay={0.5}
+                      spread={90}
                     />
                   </h3>
                   <p className="text-white/40 text-sm leading-relaxed group-hover:text-white/55 transition-colors duration-300">
