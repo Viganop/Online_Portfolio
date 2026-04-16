@@ -78,7 +78,7 @@ export function Avaliacoes() {
           className="text-center mb-16 max-w-2xl mx-auto"
         >
           <h2 className="text-4xl sm:text-5xl font-black text-white mb-6 text-balance">
-            O que nossos clientes dizem
+            Feedbacks
           </h2>
           <p className="text-white/50 text-lg">
             A satisfação dos nossos clientes é o nosso maior orgulho. Confira alguns depoimentos de quem já transformou seu negócio.
@@ -103,7 +103,7 @@ export function Avaliacoes() {
               {/* Stars */}
               <div className="flex gap-1 mb-4">
                 {[...Array(avaliacao.estrelas)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-white/80 text-white/80" />
+                  <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
                 ))}
               </div>
 
