@@ -1,57 +1,52 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 
 interface Projeto {
   id: string;
   titulo: string;
   descricao: string;
-  imagem: string;
+  video: string;
   categoria: string;
-  demo?: string;
 }
 
 const PROJETOS: Projeto[] = [
   {
     id: '1',
     titulo: 'Golden Pets',
-    descricao: 'E-commerce completo para pet shop com catálogo de produtos, carrinho de compras e sistema de rastreamento.',
-    imagem: '/images/golden-pets.png',
+    descricao: 'E-commerce completo para pet shop com catálogo de produtos, carrinho de compras e sistema de rastreamento de pedidos.',
+    video: '/videos/projeto-1.mp4',
     categoria: 'E-Commerce',
-    demo: '#',
   },
   {
     id: '2',
     titulo: 'Pastel do Zé',
     descricao: 'Landing page para pastelaria tradicional com cardápio digital, localização e horários de funcionamento.',
-    imagem: '/images/pastel-do-ze.png',
+    video: '/videos/projeto-1.mp4',
     categoria: 'Landing Page',
-    demo: '#',
   },
   {
     id: '3',
     titulo: 'Portfolio Dashboard',
-    descricao: 'Dashboard interativo para visualização de dados financeiros e análise de investimentos.',
-    imagem: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop',
+    descricao: 'Dashboard interativo para visualização de dados financeiros e análise de investimentos em tempo real.',
+    video: '/videos/projeto-1.mp4',
     categoria: 'Dashboard',
-    demo: '#',
   },
   {
     id: '4',
     titulo: 'Social Connect',
     descricao: 'Rede social com feed em tempo real, stories, mensagens diretas e notificações push.',
-    imagem: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=600&fit=crop',
+    video: '/videos/projeto-1.mp4',
     categoria: 'Rede Social',
-    demo: '#',
   },
 ];
 
 export function Projetos() {
   const [isVisible, setIsVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -63,194 +58,255 @@ export function Projetos() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.play();
+    }
+  }, [currentIndex]);
+
   const nextProject = () => {
-    setDirection(1);
     setCurrentIndex((prev) => (prev + 1) % PROJETOS.length);
   };
 
-  const prevProject = () => {
-    setDirection(-1);
-    setCurrentIndex((prev) => (prev - 1 + PROJETOS.length) % PROJETOS.length);
-  };
-
   const goToProject = (index: number) => {
-    setDirection(index > currentIndex ? 1 : -1);
     setCurrentIndex(index);
-  };
-
-  const variants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 300 : -300,
-      opacity: 0,
-      scale: 0.9,
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
-      scale: 1,
-    },
-    exit: (direction: number) => ({
-      x: direction < 0 ? 300 : -300,
-      opacity: 0,
-      scale: 0.9,
-    }),
   };
 
   const currentProject = PROJETOS[currentIndex];
 
+  const slideVariants = {
+    enter: {
+      y: 100,
+      opacity: 0,
+    },
+    center: {
+      y: 0,
+      opacity: 1,
+    },
+    exit: {
+      y: -100,
+      opacity: 0,
+    },
+  };
+
   return (
-    <section id="projetos" className="relative py-32 overflow-hidden">
-      <div className="container mx-auto px-6">
+    <section id="projetos" className="relative min-h-screen overflow-hidden">
+      
+      {/* Video Background */}
+      <div className="absolute inset-0 z-0">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentProject.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8 }}
+            className="absolute inset-0"
+          >
+            <video
+              ref={videoRef}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover blur-md scale-105"
+            >
+              <source src={currentProject.video} type="video/mp4" />
+            </video>
+            
+            {/* Dark overlay */}
+            <div className="absolute inset-0 bg-black/60" />
+            
+            {/* Gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50" />
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl sm:text-5xl font-black text-foreground mb-4">
-            Projetos
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-md mx-auto">
-            Trabalhos selecionados que demonstram nossa experiência e dedicação.
-          </p>
-        </motion.div>
-
-        {/* Carousel Container */}
-        <div className="relative max-w-4xl mx-auto">
+      {/* Content */}
+      <div className="relative z-10 container mx-auto px-6 min-h-screen flex items-center">
+        <div className="grid grid-cols-12 gap-8 w-full py-20">
           
-          {/* Arrow Left */}
-          <motion.button
-            onClick={prevProject}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-16 z-10 p-3 sm:p-4 rounded-full border border-border bg-background/80 backdrop-blur-sm text-foreground hover:bg-foreground hover:text-background transition-all duration-300 shadow-lg"
-            aria-label="Projeto anterior"
-          >
-            <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
-          </motion.button>
+          {/* Left Navigation */}
+          <div className="col-span-1 flex flex-col items-center justify-center">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={isVisible ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="flex flex-col items-center gap-4"
+            >
+              {/* Project Dots */}
+              <div className="flex flex-col gap-3">
+                {PROJETOS.map((_, index) => (
+                  <motion.button
+                    key={index}
+                    onClick={() => goToProject(index)}
+                    whileHover={{ scale: 1.3 }}
+                    whileTap={{ scale: 0.9 }}
+                    className={`relative w-3 h-3 rounded-full transition-all duration-500 ${
+                      index === currentIndex 
+                        ? 'bg-primary' 
+                        : 'bg-white/30 hover:bg-white/50'
+                    }`}
+                  >
+                    {index === currentIndex && (
+                      <motion.span
+                        layoutId="activeDot"
+                        className="absolute inset-0 rounded-full bg-primary"
+                        initial={false}
+                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                      />
+                    )}
+                    {index === currentIndex && (
+                      <motion.span
+                        className="absolute inset-0 rounded-full bg-primary"
+                        animate={{ scale: [1, 1.8, 1], opacity: [1, 0, 1] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      />
+                    )}
+                  </motion.button>
+                ))}
+              </div>
 
-          {/* Arrow Right */}
-          <motion.button
-            onClick={nextProject}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-16 z-10 p-3 sm:p-4 rounded-full border border-border bg-background/80 backdrop-blur-sm text-foreground hover:bg-foreground hover:text-background transition-all duration-300 shadow-lg"
-            aria-label="Próximo projeto"
-          >
-            <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
-          </motion.button>
+              {/* Divider */}
+              <div className="w-px h-12 bg-white/20" />
 
-          {/* Main Card */}
-          <div className="relative overflow-hidden rounded-3xl">
-            <AnimatePresence initial={false} custom={direction} mode="wait">
+              {/* Arrow Down */}
+              <motion.button
+                onClick={nextProject}
+                whileHover={{ scale: 1.1, y: 3 }}
+                whileTap={{ scale: 0.95 }}
+                className="p-2 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-all"
+                aria-label="Próximo projeto"
+              >
+                <motion.div
+                  animate={{ y: [0, 4, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  <ChevronDown className="w-5 h-5 text-white" />
+                </motion.div>
+              </motion.button>
+
+              {/* Current Index */}
+              <div className="text-white/50 text-xs font-mono mt-2">
+                {String(currentIndex + 1).padStart(2, '0')}/{String(PROJETOS.length).padStart(2, '0')}
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Main Content */}
+          <div className="col-span-11 md:col-span-7 flex flex-col justify-center">
+            <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
-                custom={direction}
-                variants={variants}
+                variants={slideVariants}
                 initial="enter"
                 animate="center"
                 exit="exit"
                 transition={{
-                  x: { type: "spring", stiffness: 300, damping: 30 },
-                  opacity: { duration: 0.3 },
-                  scale: { duration: 0.3 },
+                  y: { type: "spring", stiffness: 200, damping: 25 },
+                  opacity: { duration: 0.4 },
                 }}
-                className="relative"
               >
-                {/* Image */}
-                <div className="relative aspect-[16/10] overflow-hidden rounded-3xl">
-                  {/* Blurred Background Layer */}
-                  <img
-                    src={currentProject.imagem}
-                    alt=""
-                    aria-hidden="true"
-                    className="absolute inset-0 w-full h-full object-cover blur-sm scale-105"
-                  />
-                  
-                  {/* Glass Overlay */}
-                  <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px]" />
-                  
-                  {/* Clear Image on top with slight transparency */}
-                  <img
-                    src={currentProject.imagem}
-                    alt={currentProject.titulo}
-                    className="relative w-full h-full object-cover opacity-90"
-                  />
-                  
-                  {/* Gradient Overlay for text readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />
-                  
-                  {/* Category Badge */}
-                  <div className="absolute top-6 left-6">
-                    <span className="px-4 py-2 text-xs font-semibold uppercase tracking-wider bg-white/95 text-black rounded-full">
-                      {currentProject.categoria}
-                    </span>
-                  </div>
+                {/* Category Badge */}
+                <motion.span
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 }}
+                  className="inline-block px-4 py-2 text-xs font-semibold uppercase tracking-widest text-primary border border-primary/30 rounded-full mb-6 backdrop-blur-sm bg-primary/5"
+                >
+                  {currentProject.categoria}
+                </motion.span>
 
-                  {/* Content Overlay */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10">
-                    <motion.h3
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.1 }}
-                      className="text-2xl sm:text-4xl font-bold text-white mb-3"
-                    >
-                      {currentProject.titulo}
-                    </motion.h3>
-                    <motion.p
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.2 }}
-                      className="text-white/80 text-sm sm:text-base max-w-xl mb-6"
-                    >
-                      {currentProject.descricao}
-                    </motion.p>
-                    
-                    {currentProject.demo && (
-                      <motion.a
-                        href={currentProject.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 }}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black font-semibold rounded-full hover:bg-primary hover:text-white transition-colors"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                        Ver Projeto
-                      </motion.a>
-                    )}
-                  </div>
-                </div>
+                {/* Title */}
+                <motion.h2
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="text-5xl sm:text-6xl md:text-7xl font-black text-white mb-6 leading-tight"
+                >
+                  {currentProject.titulo}
+                </motion.h2>
+
+                {/* Description */}
+                <motion.p
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="text-white/70 text-lg sm:text-xl max-w-xl mb-10 leading-relaxed"
+                >
+                  {currentProject.descricao}
+                </motion.p>
+
+                {/* CTA Button */}
+                <motion.a
+                  href="#"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  whileHover={{ scale: 1.02, x: 5 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="inline-flex items-center gap-3 px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-primary hover:text-white transition-all duration-300 group"
+                >
+                  Ver Projeto
+                  <motion.span
+                    className="inline-block"
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    &rarr;
+                  </motion.span>
+                </motion.a>
               </motion.div>
             </AnimatePresence>
           </div>
 
-          {/* Dots Indicator */}
-          <div className="flex justify-center gap-3 mt-8">
-            {PROJETOS.map((_, index) => (
-              <motion.button
-                key={index}
-                onClick={() => goToProject(index)}
-                whileHover={{ scale: 1.2 }}
-                whileTap={{ scale: 0.9 }}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  index === currentIndex 
-                    ? 'bg-primary w-8' 
-                    : 'bg-border w-2 hover:bg-muted-foreground'
-                }`}
-                aria-label={`Ir para projeto ${index + 1}`}
-              />
-            ))}
+          {/* Right Side - Visual Accent */}
+          <div className="hidden md:flex col-span-4 items-center justify-center">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={isVisible ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="relative"
+            >
+              {/* Decorative circles */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                  className="w-64 h-64 border border-white/10 rounded-full"
+                />
+              </div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <motion.div
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                  className="w-48 h-48 border border-white/5 rounded-full"
+                />
+              </div>
+              
+              {/* Project number */}
+              <motion.div
+                key={currentIndex}
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.5 }}
+                transition={{ duration: 0.5 }}
+                className="relative z-10 text-[150px] font-black text-white/5 leading-none select-none"
+              >
+                {String(currentIndex + 1).padStart(2, '0')}
+              </motion.div>
+            </motion.div>
           </div>
 
         </div>
-
       </div>
+
+      {/* Bottom gradient */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-10" />
+
     </section>
   );
 }
